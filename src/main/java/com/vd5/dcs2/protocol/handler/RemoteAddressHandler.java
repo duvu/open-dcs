@@ -1,0 +1,30 @@
+package com.vd5.dcs2.protocol.handler;
+
+import com.vd5.dcs.model.Position;
+import io.netty.channel.ChannelHandler;
+import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
+
+import java.net.InetSocketAddress;
+
+/**
+ * @author beou on 10/1/18 02:45
+ */
+@ChannelHandler.Sharable
+public class RemoteAddressHandler extends ChannelInboundHandlerAdapter {
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+
+        InetSocketAddress remoteAddress = (InetSocketAddress) ctx.channel().remoteAddress();
+        String hostAddress = remoteAddress != null ? remoteAddress.getAddress().getHostAddress() : null;
+
+        if (msg instanceof Position) {
+            Position position = (Position) msg;
+            position.setRemoteAddress(hostAddress);
+        }
+
+        ctx.fireChannelRead(msg);
+    }
+
+}
