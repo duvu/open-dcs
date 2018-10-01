@@ -1,7 +1,8 @@
 package com.vd5.dcs;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ning.http.client.AsyncHttpClient;
+import org.asynchttpclient.AsyncHttpClient;
+import static org.asynchttpclient.Dsl.*;
 
 /**
  * @author beou on 1/11/18 15:10
@@ -12,7 +13,7 @@ public class UtilsContext {
 
     public static AsyncHttpClient getAsyncHttpClient() {
         if (asyncHttpClient == null) {
-            asyncHttpClient = new AsyncHttpClient();
+            asyncHttpClient = asyncHttpClient();
         }
         return asyncHttpClient;
     }

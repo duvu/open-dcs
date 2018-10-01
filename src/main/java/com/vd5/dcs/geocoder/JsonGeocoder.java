@@ -15,9 +15,9 @@
  */
 package com.vd5.dcs.geocoder;
 
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.Response;
 import com.vd5.dcs.UtilsContext;
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.Response;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 //import org.traccar.Context;

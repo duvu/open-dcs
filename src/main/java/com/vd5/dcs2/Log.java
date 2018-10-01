@@ -16,11 +16,9 @@ public class Log {
     private Log() {
     }
 
-    public static final String DATE_FORMAT = "yyyy-MM-dd HH:mm:ss";
+    private static final String LOGGER_NAME = "vd5project";
 
-    private static final String LOGGER_NAME = "traccar";
-
-    private static final String STACK_PACKAGE = "org.traccar";
+    private static final String STACK_PACKAGE = "com.vd5";
     private static final int STACK_LIMIT = 3;
 
     private static Logger logger = null;
@@ -28,26 +26,6 @@ public class Log {
     public static String getAppVersion() {
         return Log.class.getPackage().getImplementationVersion();
     }
-
-//    public static void setupLogger(Config config) throws IOException {
-//
-//        //Layout layout = new PatternLayout("%d{" + DATE_FORMAT + "} %5p: %m%n");
-//        Layout layout = new PatternLayout();
-//
-//        Appender appender = new DailyRollingFileAppender(
-//                layout, config.getString("logger.file"), "'.'yyyyMMdd");
-//
-//        LogManager.resetConfiguration();
-//        LogManager.getRootLogger().addAppender(new NullAppender());
-//
-//        String name;
-//        logger = LoggerFactory.getLogger(LOGGER_NAME);
-//        logger..addAppender(appender);
-//        logger.setLevel(Level.toLevel(config.getString("logger.level"), Level.ALL));
-//
-//        Log.logSystemInfo();
-//        Log.info("Version: " + getAppVersion());
-//    }
 
     public static Logger getLogger() {
         if (logger == null) {

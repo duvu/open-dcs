@@ -1,10 +1,13 @@
 package com.vd5.dcs2.protocol;
 
 import com.vd5.dcs2.ApplicationContext;
+import com.vd5.dcs2.Log;
 import io.netty.bootstrap.AbstractBootstrap;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.Channel;
+import io.netty.channel.ChannelOption;
+import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.channel.epoll.EpollDatagramChannel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
@@ -47,6 +50,8 @@ public abstract class TrackerServer {
             bootstrap = new Bootstrap();
             bootstrap.group(EventLoopGroupFactory.getEpollGroup())
                     .channel(EpollDatagramChannel.class)
+                    .option(ChannelOption.SO_BROADCAST, true)
+                    .option(EpollChannelOption.SO_REUSEPORT, true)
                     .handler(pipelineFactory);
         }
     }
@@ -54,6 +59,7 @@ public abstract class TrackerServer {
     protected abstract void addProtocolHandlers(PipelineBuilder pipelineBuilder);
 
     public void start() throws InterruptedException {
+        Log.info("Starting *"+port);
         InetSocketAddress enpoint;
         if (StringUtils.isNotEmpty(host)) {
             enpoint = new InetSocketAddress(host, port);
@@ -61,11 +67,17 @@ public abstract class TrackerServer {
             enpoint = new InetSocketAddress(port);
         }
 
-        bootstrap.bind(enpoint);
-        //.sync().channel();
-//        if (channel != null) {
-//            channelGroup.add(channel);
-//        }
+        if (duplex) {
+            Channel channel = bootstrap.bind(enpoint).sync().channel();
+            if (channel != null) {
+                channelGroup.add(channel);
+            }
+        } else {
+            for (int i = 0; i < ApplicationContext.getWorkerNThread(); i++) {
+                Channel channel= bootstrap.bind(enpoint).sync().channel();
+                channelGroup.add(channel);
+            }
+        }
     }
 
     public void stop() {

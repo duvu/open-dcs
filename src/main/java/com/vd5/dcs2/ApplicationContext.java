@@ -67,19 +67,6 @@ public final class ApplicationContext {
     public static void setWorkerNThread(int nThread) {
         config.setString(DCS_WORKER_N_THREAD, String.valueOf(nThread));
     }
-
-    public static int getTimeout(String protocol) {
-        return config.getInteger(protocol + ".timeout");
-    }
-
-
-    public static String getHost(String protocol) {
-        return config.getString(protocol + ".host");
-    }
-    public static int getPort(String protocol) {
-        return config.getInteger(protocol + ".port");
-    }
-
     //---
     // Geocoder
     //---
@@ -157,6 +144,17 @@ public final class ApplicationContext {
         return object;
     }
 
+    public static int getTimeout(String protocol) {
+        return config.getInteger(protocol + ".timeout");
+    }
+
+
+    public static String getHost(String protocolName) {
+        return config.getString("protocol." + protocolName + ".host");
+    }
+    public static int getPort(String protocolName) {
+        return config.getInteger("protocol." + protocolName + ".port");
+    }
 
     //------------------------------------------------------------------------------------------------------------------
     public static ServerManager getServerManager() {

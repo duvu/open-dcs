@@ -91,7 +91,7 @@
     </appender>
 
 
-    <root level="info">
+    <root level="info,debug">
         <appender-ref ref="STDOUT"/>
         <!--<appender-ref ref="COMMON_LOG_FILE"/>-->
     </root>
@@ -102,14 +102,5 @@
     <logger name="com.vd5.dcs.protocols.wlink" additivity="false" level="info">
         <appender-ref ref="WLINK-TO-FILE"/>
     </logger>
-
-    <!--springProfile name="prod">
-        <root level="info">
-            <appender-ref ref="SAVE-TO-FILE"/>
-        </root>
-        <logger name="com.lankydan.service.MyServiceImpl" additivity="false" level="error">
-            <appender-ref ref="SAVE-TO-FILE"/>
-        </logger>
-    </springProfile-->
 
 </configuration>

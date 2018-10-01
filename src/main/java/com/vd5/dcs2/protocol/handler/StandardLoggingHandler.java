@@ -5,6 +5,7 @@ import com.vd5.dcs2.model.NetworkMessage;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.ChannelDuplexHandler;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelPromise;
 
@@ -13,6 +14,7 @@ import java.net.InetSocketAddress;
 /**
  * @author beou on 10/1/18 02:44
  */
+@ChannelHandler.Sharable
 public class StandardLoggingHandler extends ChannelDuplexHandler {
 
     @Override

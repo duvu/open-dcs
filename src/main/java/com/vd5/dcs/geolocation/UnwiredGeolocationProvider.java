@@ -22,24 +22,17 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.Response;
+
 import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
 import com.vd5.dcs.model.WifiAccessPoint;
-//import org.springframework.http.HttpHeaders;
-//import org.springframework.http.MediaType;
-//import org.traccar.Context;
-//import org.traccar.model.CellTower;
-//import org.traccar.model.Network;
-//import org.traccar.model.WifiAccessPoint;
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.Response;
 
 import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
-//import javax.ws.rs.core.HttpHeaders;
-//import javax.ws.rs.core.MediaType;
 import java.util.Collection;
 
 public class UnwiredGeolocationProvider implements GeolocationProvider {

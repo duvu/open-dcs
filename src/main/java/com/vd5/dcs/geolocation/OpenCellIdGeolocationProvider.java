@@ -15,11 +15,11 @@
  */
 package com.vd5.dcs.geolocation;
 
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.Response;
 import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.Response;
 
 import javax.json.Json;
 import javax.json.JsonObject;

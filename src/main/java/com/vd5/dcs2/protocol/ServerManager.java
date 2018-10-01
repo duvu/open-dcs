@@ -20,7 +20,7 @@ public class ServerManager {
         String[] nameList = ApplicationContext.getProtocolNameList();
         for (String name: nameList) {
             ProtocolObject protocolObject = ApplicationContext.getProtocolObject(name);
-
+            Log.info("Protocol #" + name + " is enabled");
             if (protocolObject.isEnabled()) {
                 Class protocolClazz = Class.forName(protocolObject.getClazz());
                 if (AbstractProtocol.class.isAssignableFrom(protocolClazz)) {

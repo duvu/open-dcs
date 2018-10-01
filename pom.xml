@@ -22,13 +22,19 @@
 		<dependency>
 			<groupId>io.netty</groupId>
 			<artifactId>netty-all</artifactId>
-			<version>4.1.24.Final</version>
+			<version>4.1.29.Final</version>
 		</dependency>
+		<!--<dependency>-->
+			<!--<groupId>com.ning</groupId>-->
+			<!--<artifactId>async-http-client</artifactId>-->
+			<!--<version>1.9.40</version>-->
+		<!--</dependency>-->
 		<dependency>
-			<groupId>com.ning</groupId>
+			<groupId>org.asynchttpclient</groupId>
 			<artifactId>async-http-client</artifactId>
-			<version>1.9.40</version>
+			<version>2.5.3</version>
 		</dependency>
+
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
@@ -75,12 +81,6 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
-		</dependency>
-
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-simple</artifactId>
 			<version>${slf4j.version}</version>
 		</dependency>
 
@@ -138,6 +138,50 @@
 						</manifest>
 					</archive>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>appassembler-maven-plugin</artifactId>
+				<version>1.10</version>
+				<executions>
+					<execution>
+						<id>generate-jsw-scripts</id>
+						<phase>package</phase>
+						<goals>
+							<goal>generate-daemons</goal>
+						</goals>
+						<configuration>
+							<repositoryLayout>flat</repositoryLayout>
+							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
+							<daemons>
+								<daemon>
+									<id>dcs</id>
+									<wrapperMainClass>org.tanukisoftware.wrapper.WrapperSimpleApp</wrapperMainClass>
+									<mainClass>com.vd5.dcs2.Main</mainClass>
+									<commandLineArguments>
+										<commandLineArgument>start</commandLineArgument>
+									</commandLineArguments>
+
+									<generatorConfigurations>
+										<generatorConfiguration>
+											<generator>jsw</generator>
+											<includes>
+												<include>linux-x86-32</include>
+												<include>linux-x86-64</include>
+												<include>windows-x86-32</include>
+											</includes>
+										</generatorConfiguration>
+									</generatorConfigurations>
+
+									<platforms>
+										<platform>jsw</platform>
+									</platforms>
+								</daemon>
+							</daemons>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

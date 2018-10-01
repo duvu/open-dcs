@@ -18,10 +18,10 @@ package com.vd5.dcs.geolocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-import com.ning.http.client.AsyncCompletionHandler;
-import com.ning.http.client.Response;
 import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.Network;
+import org.asynchttpclient.AsyncCompletionHandler;
+import org.asynchttpclient.Response;
 //import org.springframework.http.HttpHeaders;
 //import org.springframework.http.MediaType;
 
