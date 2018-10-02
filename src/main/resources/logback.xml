@@ -93,8 +93,8 @@
 
 
     <root level="info,debug">
-        <appender-ref ref="STDOUT"/>
-        <!--<appender-ref ref="COMMON_LOG_FILE"/>-->
+        <!--appender-ref ref="STDOUT"/-->
+        <appender-ref ref="COMMON_LOG_FILE"/>
     </root>
     <logger name="com.vd5" additivity="false" level="info">
         <appender-ref ref="TK10X-TO-FILE"/>
