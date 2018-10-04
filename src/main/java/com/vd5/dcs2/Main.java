@@ -15,9 +15,12 @@ public class Main {
         Log.info("Initiating DCS server ...");
         try {
             ApplicationContext.getServerManager().start();
+            ApplicationContext.getWebClient().open();
         } catch (InterruptedException e) {
             e.printStackTrace();
             Log.error("ERROR", e);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
         Runtime.getRuntime().addShutdownHook(new Thread(){
             public void run() {
@@ -25,6 +28,7 @@ public class Main {
                 scheduler.shutdown();
             }
         });
+
         scheduler.scheduleAtFixedRate(new Runnable() {
 
             @Override

@@ -5,13 +5,16 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
+import io.netty.channel.EventLoopGroup;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
+import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
 import io.netty.handler.codec.http.websocketx.WebSocketVersion;
@@ -26,16 +29,18 @@ import java.net.URISyntaxException;
  */
 public class WebSocketClient {
     static final String URL = "ws://127.0.0.1:8081/local";
-
+    private final URI uri;
     private Channel channel;
-    private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
+    private static final EventLoopGroup group = new NioEventLoopGroup();
 
     public WebSocketClient() {
-        try {
-            URI uri = new URI(URL);
-            final WebSocketClientHandler handler = new WebSocketClientHandler(
-                    WebSocketClientHandshakerFactory.newHandshaker(uri,WebSocketVersion.V13,null,true,
-                            new DefaultHttpHeaders()));
+        this.uri = URI.create(URL);
+    }
+
+    public void open() throws Exception {
+        final WebSocketClientHandler handler = new WebSocketClientHandler(
+                WebSocketClientHandshakerFactory.newHandshaker(uri,WebSocketVersion.V13,null,true,
+                new DefaultHttpHeaders()));
 
             Bootstrap bootstrap = new Bootstrap();;
             bootstrap.group(EventLoopGroupFactory.getWebsocketGroup())
@@ -52,21 +57,17 @@ public class WebSocketClient {
                             );
                         }
                     });
-
             channel = bootstrap.connect(uri.getHost(), getPort(uri)).sync().channel();
             handler.handshakeFuture().sync();
-        } catch (InterruptedException | URISyntaxException e) {
-            e.printStackTrace();
-            if (channel != null) {
-                channel.close();
-            }
-        } finally {
-            EventLoopGroupFactory.getWebsocketGroup().shutdownGracefully();
-        }
 
     }
 
-    public void send(String data) {
+    public void close() throws InterruptedException {
+        channel.writeAndFlush(new CloseWebSocketFrame());
+        channel.closeFuture().sync();
+    }
+
+    public void send(final String data) {
         channel.writeAndFlush(new TextWebSocketFrame(data));
     }
 
