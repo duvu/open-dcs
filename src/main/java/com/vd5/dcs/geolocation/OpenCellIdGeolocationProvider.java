@@ -15,9 +15,9 @@
  */
 package com.vd5.dcs.geolocation;
 
-import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
+import com.vd5.dcs2.ApplicationContext;
 import org.asynchttpclient.AsyncCompletionHandler;
 import org.asynchttpclient.Response;
 
@@ -45,7 +45,7 @@ public class OpenCellIdGeolocationProvider implements GeolocationProvider {
             String request = String.format(url, cellTower.getMcc(), cellTower.getMnc(),
                     cellTower.getLac(), cellTower.getCid());
 
-            UtilsContext.getAsyncHttpClient().prepareGet(request).execute(new AsyncCompletionHandler() {
+            ApplicationContext.getAsyncHttpClient().prepareGet(request).execute(new AsyncCompletionHandler() {
                 @Override
                 public Object onCompleted(Response response) throws Exception {
                     try (JsonReader reader = Json.createReader(response.getResponseBodyAsStream())) {

@@ -18,8 +18,8 @@ package com.vd5.dcs.geolocation;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
-import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.Network;
+import com.vd5.dcs2.ApplicationContext;
 import org.asynchttpclient.AsyncCompletionHandler;
 import org.asynchttpclient.Response;
 //import org.springframework.http.HttpHeaders;
@@ -40,8 +40,8 @@ public class UniversalGeolocationProvider implements GeolocationProvider {
     @Override
     public void getLocation(Network network, final LocationProviderCallback callback) {
         try {
-            String request = UtilsContext.getObjectMapper().writeValueAsString(network);
-            UtilsContext.getAsyncHttpClient().preparePost(url)
+            String request = ApplicationContext.getObjectMapper().writeValueAsString(network);
+            ApplicationContext.getAsyncHttpClient().preparePost(url)
                     .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString())
                     .setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(request.length()))
                     .setBody(request).execute(new AsyncCompletionHandler() {

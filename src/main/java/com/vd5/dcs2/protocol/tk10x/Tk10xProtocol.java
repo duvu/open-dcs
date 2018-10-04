@@ -1,8 +1,8 @@
 package com.vd5.dcs2.protocol.tk10x;
 
-import com.vd5.dcs2.protocol.AbstractProtocol;
-import com.vd5.dcs2.protocol.PipelineBuilder;
-import com.vd5.dcs2.protocol.TrackerServer;
+import com.vd5.dcs2.AbstractProtocol;
+import com.vd5.dcs2.PipelineBuilder;
+import com.vd5.dcs2.TrackerServer;
 
 import java.util.List;
 

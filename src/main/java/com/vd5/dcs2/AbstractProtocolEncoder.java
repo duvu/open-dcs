@@ -1,4 +1,4 @@
-package com.vd5.dcs2.protocol;
+package com.vd5.dcs2;
 
 import io.netty.channel.ChannelOutboundHandlerAdapter;
 

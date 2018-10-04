@@ -1,7 +1,5 @@
-package com.vd5.dcs2.protocol;
+package com.vd5.dcs2;
 
-import com.vd5.dcs2.ApplicationContext;
-import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.ProtocolObject;
 
 import java.util.LinkedList;

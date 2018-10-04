@@ -1,4 +1,4 @@
-package com.vd5.dcs2.protocol.handler;
+package com.vd5.dcs2.handler;
 
 import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;

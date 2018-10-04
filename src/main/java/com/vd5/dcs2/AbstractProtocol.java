@@ -1,4 +1,4 @@
-package com.vd5.dcs2.protocol;
+package com.vd5.dcs2;
 
 import java.util.Arrays;
 import java.util.Collection;

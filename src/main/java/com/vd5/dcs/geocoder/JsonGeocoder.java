@@ -15,7 +15,7 @@
  */
 package com.vd5.dcs.geocoder;
 
-import com.vd5.dcs.UtilsContext;
+import com.vd5.dcs2.ApplicationContext;
 import org.asynchttpclient.AsyncCompletionHandler;
 import org.asynchttpclient.Response;
 import org.slf4j.Logger;
@@ -27,10 +27,6 @@ import javax.json.Json;
 import javax.json.JsonObject;
 import javax.json.JsonReader;
 import java.io.IOException;
-import java.util.AbstractMap;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 public abstract class JsonGeocoder implements Geocoder {
@@ -65,7 +61,7 @@ public abstract class JsonGeocoder implements Geocoder {
     @Override
     public String getAddress(final double latitude, final double longitude, final ReverseGeocoderCallback callback) {
         if (callback != null) {
-            UtilsContext.getAsyncHttpClient().prepareGet(String.format(url, latitude, longitude))
+            ApplicationContext.getAsyncHttpClient().prepareGet(String.format(url, latitude, longitude))
                     .execute(new AsyncCompletionHandler() {
                 @Override
                 public Object onCompleted(Response response) throws Exception {
@@ -79,7 +75,7 @@ public abstract class JsonGeocoder implements Geocoder {
             });
         } else {
             try {
-                Response response = UtilsContext.getAsyncHttpClient()
+                Response response = ApplicationContext.getAsyncHttpClient()
                         .prepareGet(String.format(url, latitude, longitude)).execute().get();
                 return handleResponse(latitude, longitude, response, null);
             } catch (InterruptedException | ExecutionException | IOException error) {

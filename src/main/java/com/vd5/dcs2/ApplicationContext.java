@@ -1,15 +1,18 @@
 package com.vd5.dcs2;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vd5.dcs.geocoder.*;
 import com.vd5.dcs.utils.Circular;
 import com.vd5.dcs2.model.ProtocolObject;
-import com.vd5.dcs2.protocol.ServerManager;
 import org.apache.commons.lang3.StringUtils;
+import org.asynchttpclient.AsyncHttpClient;
 
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
+
+import static org.asynchttpclient.Dsl.asyncHttpClient;
 
 /**
  * @author beou on 10/1/18 01:08
@@ -22,6 +25,8 @@ public final class ApplicationContext {
     private static Circular<Geocoder> circular;
 
     private static ServerManager serverManager;
+    private static AsyncHttpClient asyncHttpClient;
+    private static ObjectMapper objectMapper;
 
     private static final String EXTERNAL_CONFIG_FILE = "app.conf";
 
@@ -133,7 +138,6 @@ public final class ApplicationContext {
     }
     public static ProtocolObject getProtocolObject(String protocolName) {
         ProtocolObject object = new ProtocolObject();
-        String zzalc = config.getString("protocol." + protocolName + ".clazz");
         object.setClazz(config.getString("protocol." + protocolName + ".clazz"));
         object.setDuplex(config.getBoolean("protocol." + protocolName + ".duplex"));
         object.setEnabled(config.getBoolean("protocol." + protocolName + ".enabled"));
@@ -141,14 +145,13 @@ public final class ApplicationContext {
         object.setPort(config.getInteger("protocol." + protocolName + ".port"));
         object.setTimeout(config.getInteger("protocol." + protocolName + ".timeout"));
         object.setMinSpeedKph(config.getDouble("protocol." + protocolName + ".min-speed"));
+        object.setDecodeLow(config.getBoolean("protocol." + protocolName + ".decode-low"));
         return object;
     }
 
     public static int getTimeout(String protocol) {
         return config.getInteger(protocol + ".timeout");
     }
-
-
     public static String getHost(String protocolName) {
         return config.getString("protocol." + protocolName + ".host");
     }
@@ -161,4 +164,18 @@ public final class ApplicationContext {
         return serverManager;
     }
 
+    //--
+    public static AsyncHttpClient getAsyncHttpClient() {
+        if (asyncHttpClient == null) {
+            asyncHttpClient = asyncHttpClient();
+        }
+        return asyncHttpClient;
+    }
+
+    public static ObjectMapper getObjectMapper() {
+        if (objectMapper == null) {
+            objectMapper = new ObjectMapper();
+        }
+        return objectMapper;
+    }
 }

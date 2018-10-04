@@ -1,6 +1,6 @@
-package com.vd5.dcs2.protocol.handler;
+package com.vd5.dcs2.handler;
 
-import com.vd5.dcs2.protocol.TrackerServer;
+import com.vd5.dcs2.TrackerServer;
 import io.netty.channel.ChannelDuplexHandler;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;

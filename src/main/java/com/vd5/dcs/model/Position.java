@@ -133,6 +133,11 @@ public class Position implements Serializable {
 
     private String rawData;
 
+    public Position(String protocol) {
+        this.protocol = protocol;
+        this.statusList = new ArrayList<>();
+    }
+
     public Position() {
         this.statusList = new ArrayList<>();
     }

@@ -12,6 +12,8 @@ public class ProtocolObject {
     private int timeout;
     private double minSpeedKph;
 
+    private boolean decodeLow;
+
     public String getClazz() {
         return clazz;
     }
@@ -66,5 +68,13 @@ public class ProtocolObject {
 
     public void setMinSpeedKph(double minSpeedKph) {
         this.minSpeedKph = minSpeedKph;
+    }
+
+    public boolean isDecodeLow() {
+        return decodeLow;
+    }
+
+    public void setDecodeLow(boolean decodeLow) {
+        this.decodeLow = decodeLow;
     }
 }

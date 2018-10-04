@@ -1,4 +1,4 @@
-package com.vd5.dcs2.protocol;
+package com.vd5.dcs2;
 
 import com.vd5.dcs2.ApplicationContext;
 import io.netty.channel.EventLoopGroup;
@@ -13,6 +13,8 @@ public final class EventLoopGroupFactory {
     private static EventLoopGroup workerGroup = new NioEventLoopGroup(ApplicationContext.getWorkerNThread());
     private static EpollEventLoopGroup epollGroup = new EpollEventLoopGroup(ApplicationContext.getWorkerNThread());
 
+    public static EventLoopGroup websocketGroup = new NioEventLoopGroup(2);
+
     public static EventLoopGroup getBossGroup() {
         return bossGroup;
     }
@@ -23,5 +25,9 @@ public final class EventLoopGroupFactory {
 
     public static EpollEventLoopGroup getEpollGroup() {
         return epollGroup;
+    }
+
+    public static EventLoopGroup getWebsocketGroup() {
+        return websocketGroup;
     }
 }

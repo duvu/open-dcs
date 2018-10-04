@@ -63,12 +63,12 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily & on size-->
-            <maxFileSize>10MB</maxFileSize>
+            <maxFileSize>50MB</maxFileSize>
             <fileNamePattern>
                 ${LOG_PATH}/wlink_%d{dd-MM-yyyy}_%i.log.gz
             </fileNamePattern>
             <maxHistory>10</maxHistory>
-            <totalSizeCap>100MB</totalSizeCap>
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 

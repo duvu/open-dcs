@@ -1,7 +1,6 @@
-package com.vd5.dcs2.protocol;
+package com.vd5.dcs2;
 
-import com.vd5.dcs2.ApplicationContext;
-import com.vd5.dcs2.protocol.handler.*;
+import com.vd5.dcs2.handler.*;
 import io.netty.channel.*;
 import io.netty.handler.timeout.IdleStateHandler;
 

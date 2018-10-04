@@ -23,10 +23,10 @@ import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.google.common.net.HttpHeaders;
 import com.google.common.net.MediaType;
 
-import com.vd5.dcs.UtilsContext;
 import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
 import com.vd5.dcs.model.WifiAccessPoint;
+import com.vd5.dcs2.ApplicationContext;
 import org.asynchttpclient.AsyncCompletionHandler;
 import org.asynchttpclient.Response;
 
@@ -95,7 +95,7 @@ public class UnwiredGeolocationProvider implements GeolocationProvider {
             ObjectNode json = objectMapper.valueToTree(network);
             json.put("token", key);
             String request = objectMapper.writeValueAsString(json);
-            UtilsContext.getAsyncHttpClient().preparePost(url)
+            ApplicationContext.getAsyncHttpClient().preparePost(url)
                     .setHeader(HttpHeaders.CONTENT_TYPE, MediaType.JSON_UTF_8.toString())
                     .setHeader(HttpHeaders.CONTENT_LENGTH, String.valueOf(request.length()))
                     .setBody(request).execute(new AsyncCompletionHandler() {

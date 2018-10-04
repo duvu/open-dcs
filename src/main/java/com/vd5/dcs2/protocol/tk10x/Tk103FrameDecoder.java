@@ -1,6 +1,6 @@
 package com.vd5.dcs2.protocol.tk10x;
 
-import com.vd5.dcs2.protocol.AbstractFrameDecoder;
+import com.vd5.dcs2.AbstractFrameDecoder;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
