@@ -8,6 +8,7 @@ public class Main {
     public static void main(String[] args) {
         Log.info("Initiating DCS server ...");
         try {
+            ApplicationContext.getWebClient().send("###Test###");
             ApplicationContext.getServerManager().start();
         } catch (InterruptedException e) {
             e.printStackTrace();

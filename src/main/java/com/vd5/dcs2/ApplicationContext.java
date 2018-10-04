@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.vd5.dcs.geocoder.*;
 import com.vd5.dcs.utils.Circular;
 import com.vd5.dcs2.model.ProtocolObject;
+import com.vd5.dcs2.websocket.WebSocketClient;
 import org.apache.commons.lang3.StringUtils;
 import org.asynchttpclient.AsyncHttpClient;
 
@@ -27,6 +28,8 @@ public final class ApplicationContext {
     private static ServerManager serverManager;
     private static AsyncHttpClient asyncHttpClient;
     private static ObjectMapper objectMapper;
+
+    private static WebSocketClient webClient;
 
     private static final String EXTERNAL_CONFIG_FILE = "app.conf";
 
@@ -177,5 +180,12 @@ public final class ApplicationContext {
             objectMapper = new ObjectMapper();
         }
         return objectMapper;
+    }
+
+    public static WebSocketClient getWebClient() {
+        if (webClient == null) {
+            webClient = new WebSocketClient();
+        }
+        return webClient;
     }
 }

@@ -1,9 +1,15 @@
 package com.vd5.dcs2.protocol.tk10x;
 
+import com.vd5.dcs.helper.Parser;
 import com.vd5.dcs.helper.PatternBuilder;
+import com.vd5.dcs.model.CellTower;
+import com.vd5.dcs.model.Network;
 import com.vd5.dcs.model.Position;
+import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.AbstractProtocolDecoder;
+import com.vd5.dcs2.DeviceSession;
+import com.vd5.dcs2.model.NetworkMessage;
 import io.netty.channel.Channel;
 
 import java.net.SocketAddress;
@@ -207,24 +213,24 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-        position.setDeviceId(deviceSession.getDeviceId());
+        //position.setDeviceId(deviceSession.getDeviceId());
 
-        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
-
-        int batterylevel = parser.nextInt(0);
-        if (batterylevel != 255) {
-            position.set(Position.KEY_BATTERY_LEVEL, decodeBattery(batterylevel));
-        }
-
-        int battery = parser.nextInt(0);
-        if (battery != 65535) {
-            position.set(Position.KEY_BATTERY, battery * 0.01);
-        }
-
-        int power = parser.nextInt(0);
-        if (power != 65535) {
-            position.set(Position.KEY_POWER, power * 0.1);
-        }
+//        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+//
+//        int batterylevel = parser.nextInt(0);
+//        if (batterylevel != 255) {
+//            position.set(Position.KEY_BATTERY_LEVEL, decodeBattery(batterylevel));
+//        }
+//
+//        int battery = parser.nextInt(0);
+//        if (battery != 65535) {
+//            position.set(Position.KEY_BATTERY, battery * 0.01);
+//        }
+//
+//        int power = parser.nextInt(0);
+//        if (power != 65535) {
+//            position.set(Position.KEY_POWER, power * 0.1);
+//        }
 
         return position;
     }
@@ -241,12 +247,12 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-        position.setDeviceId(deviceSession.getDeviceId());
-
-        getLastLocation(position, null);
-
-        position.setNetwork(new Network(CellTower.from(
-                parser.nextInt(0), parser.nextInt(0), parser.nextHexInt(0), parser.nextHexInt(0))));
+//        position.setDeviceId(deviceSession.getDeviceId());
+//
+//        getLastLocation(position, null);
+//
+//        position.setNetwork(new Network(CellTower.from(
+//                parser.nextInt(0), parser.nextInt(0), parser.nextHexInt(0), parser.nextHexInt(0))));
 
         return position;
     }
@@ -263,16 +269,16 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-        position.setDeviceId(deviceSession.getDeviceId());
+//        position.setDeviceId(deviceSession.getDeviceId());
 
         decodeType(position, parser.next(), "0");
 
-        getLastLocation(position, null);
+//        getLastLocation(position, null);
 
         Network network = new Network();
 
-        network.addCellTower(CellTower.from(
-                parser.nextInt(), parser.nextInt(), parser.nextInt(), parser.nextInt()));
+//        network.addCellTower(CellTower.from(
+//                parser.nextInt(), parser.nextInt(), parser.nextInt(), parser.nextInt()));
 
         int wifiCount = parser.nextInt();
         if (parser.hasNext()) {
@@ -287,10 +293,10 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         if (network.getCellTowers() != null || network.getWifiAccessPoints() != null) {
-            position.setNetwork(network);
+//            position.setNetwork(network);
         }
 
-        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+//        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
 
         return position;
     }
@@ -307,124 +313,124 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-        position.setDeviceId(deviceSession.getDeviceId());
-
-        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
-
-        position.set(Position.KEY_RESULT, parser.next());
+//        position.setDeviceId(deviceSession.getDeviceId());
+//
+//        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+//
+//        position.set(Position.KEY_RESULT, parser.next());
 
         return position;
 
     }
-
-    @Override
-    protected Object decode(
-            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
-
-        String sentence = (String) msg;
-
-        if (channel != null) {
-            String id = sentence.substring(1, 13);
-            String type = sentence.substring(13, 17);
-            if (type.equals("BP00")) {
-                channel.writeAndFlush(new NetworkMessage("(" + id + "AP01HSO)", remoteAddress));
-                return null;
-            } else if (type.equals("BP05")) {
-                channel.writeAndFlush(new NetworkMessage("(" + id + "AP05)", remoteAddress));
-            }
-        }
-
-        if (sentence.contains("ZC20")) {
-            return decodeBattery(channel, remoteAddress, sentence);
-        } else if (sentence.contains("BZ00")) {
-            return decodeNetwork(channel, remoteAddress, sentence);
-        } else if (sentence.contains("ZC03")) {
-            return decodeCommandResult(channel, remoteAddress, sentence);
-        } else if (sentence.contains("DW5")) {
-            return decodeLbsWifi(channel, remoteAddress, sentence);
-        }
-
-        Parser parser = new Parser(PATTERN, sentence);
-        if (!parser.matches()) {
-            return null;
-        }
-
-        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
-        if (deviceSession == null) {
-            return null;
-        }
-
-        Position position = new Position(getProtocolName());
-        position.setDeviceId(deviceSession.getDeviceId());
-
-        boolean alternative = parser.next() != null;
-
-        decodeType(position, parser.next(), parser.next());
-
-        DateBuilder dateBuilder = new DateBuilder();
-        if (alternative) {
-            dateBuilder.setDateReverse(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-        } else {
-            dateBuilder.setDate(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-        }
-
-        position.setValid(parser.next().equals("A"));
-        position.setLatitude(parser.nextCoordinate());
-        position.setLongitude(parser.nextCoordinate());
-
-        position.setSpeed(convertSpeed(parser.nextDouble(0), "kmh"));
-
-        dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-        position.setTime(dateBuilder.getDate());
-
-        if (parser.hasNext()) {
-            position.setCourse(parser.nextDouble());
-        }
-        if (parser.hasNext()) {
-            position.setCourse(parser.nextDouble());
-        }
-
-        if (parser.hasNext(7)) {
-            position.set(Position.KEY_CHARGE, parser.nextInt() == 0);
-            position.set(Position.KEY_IGNITION, parser.nextInt() == 1);
-
-            int mask1 = parser.nextHexInt();
-            position.set(Position.PREFIX_IN + 2, BitUtil.check(mask1, 0) ? 1 : 0);
-            position.set("panic", BitUtil.check(mask1, 1) ? 1 : 0);
-            position.set(Position.PREFIX_OUT + 2, BitUtil.check(mask1, 2) ? 1 : 0);
-            if (decodeLow || BitUtil.check(mask1, 3)) {
-                position.set(Position.KEY_BLOCKED, BitUtil.check(mask1, 3) ? 1 : 0);
-            }
-
-            int mask2 = parser.nextHexInt();
-            for (int i = 0; i < 3; i++) {
-                if (decodeLow || BitUtil.check(mask2, i)) {
-                    position.set("hs" + (3 - i), BitUtil.check(mask2, i) ? 1 : 0);
-                }
-            }
-            if (decodeLow || BitUtil.check(mask2, 3)) {
-                position.set(Position.KEY_DOOR, BitUtil.check(mask2, 3) ? 1 : 0);
-            }
-
-            int mask3 = parser.nextHexInt();
-            for (int i = 1; i <= 3; i++) {
-                if (decodeLow || BitUtil.check(mask3, i)) {
-                    position.set("ls" + (3 - i + 1), BitUtil.check(mask3, i) ? 1 : 0);
-                }
-            }
-
-            position.set(Position.KEY_FUEL_LEVEL, parser.nextHexInt());
-            position.set(Position.KEY_ODOMETER, parser.nextLong(16, 0));
-        }
-
-        if (parser.hasNext()) {
-            position.setCourse(parser.nextDouble());
-        }
-
-        if (parser.hasNext()) {
-            position.set(Position.PREFIX_TEMP + 1, parser.nextDouble(0));
-        }
-
-        return position;
-    }
+//
+//    //@Override
+//    protected Object decode(
+//            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
+//
+//        String sentence = (String) msg;
+//
+//        if (channel != null) {
+//            String id = sentence.substring(1, 13);
+//            String type = sentence.substring(13, 17);
+//            if (type.equals("BP00")) {
+//                channel.writeAndFlush(new NetworkMessage("(" + id + "AP01HSO)", remoteAddress));
+//                return null;
+//            } else if (type.equals("BP05")) {
+//                channel.writeAndFlush(new NetworkMessage("(" + id + "AP05)", remoteAddress));
+//            }
+//        }
+//
+//        if (sentence.contains("ZC20")) {
+//            return decodeBattery(channel, remoteAddress, sentence);
+//        } else if (sentence.contains("BZ00")) {
+//            return decodeNetwork(channel, remoteAddress, sentence);
+//        } else if (sentence.contains("ZC03")) {
+//            return decodeCommandResult(channel, remoteAddress, sentence);
+//        } else if (sentence.contains("DW5")) {
+//            return decodeLbsWifi(channel, remoteAddress, sentence);
+//        }
+//
+//        Parser parser = new Parser(PATTERN, sentence);
+//        if (!parser.matches()) {
+//            return null;
+//        }
+//
+//        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
+//        if (deviceSession == null) {
+//            return null;
+//        }
+//
+//        Position position = new Position(getProtocolName());
+//        position.setDeviceId(deviceSession.getDeviceId());
+//
+//        boolean alternative = parser.next() != null;
+//
+//        decodeType(position, parser.next(), parser.next());
+//
+//        DateBuilder dateBuilder = new DateBuilder();
+//        if (alternative) {
+//            dateBuilder.setDateReverse(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+//        } else {
+//            dateBuilder.setDate(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+//        }
+//
+//        position.setValid(parser.next().equals("A"));
+//        position.setLatitude(parser.nextCoordinate());
+//        position.setLongitude(parser.nextCoordinate());
+//
+//        position.setSpeed(convertSpeed(parser.nextDouble(0), "kmh"));
+//
+//        dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+//        position.setTime(dateBuilder.getDate());
+//
+//        if (parser.hasNext()) {
+//            position.setCourse(parser.nextDouble());
+//        }
+//        if (parser.hasNext()) {
+//            position.setCourse(parser.nextDouble());
+//        }
+//
+//        if (parser.hasNext(7)) {
+//            position.set(Position.KEY_CHARGE, parser.nextInt() == 0);
+//            position.set(Position.KEY_IGNITION, parser.nextInt() == 1);
+//
+//            int mask1 = parser.nextHexInt();
+//            position.set(Position.PREFIX_IN + 2, BitUtil.check(mask1, 0) ? 1 : 0);
+//            position.set("panic", BitUtil.check(mask1, 1) ? 1 : 0);
+//            position.set(Position.PREFIX_OUT + 2, BitUtil.check(mask1, 2) ? 1 : 0);
+//            if (decodeLow || BitUtil.check(mask1, 3)) {
+//                position.set(Position.KEY_BLOCKED, BitUtil.check(mask1, 3) ? 1 : 0);
+//            }
+//
+//            int mask2 = parser.nextHexInt();
+//            for (int i = 0; i < 3; i++) {
+//                if (decodeLow || BitUtil.check(mask2, i)) {
+//                    position.set("hs" + (3 - i), BitUtil.check(mask2, i) ? 1 : 0);
+//                }
+//            }
+//            if (decodeLow || BitUtil.check(mask2, 3)) {
+//                position.set(Position.KEY_DOOR, BitUtil.check(mask2, 3) ? 1 : 0);
+//            }
+//
+//            int mask3 = parser.nextHexInt();
+//            for (int i = 1; i <= 3; i++) {
+//                if (decodeLow || BitUtil.check(mask3, i)) {
+//                    position.set("ls" + (3 - i + 1), BitUtil.check(mask3, i) ? 1 : 0);
+//                }
+//            }
+//
+//            position.set(Position.KEY_FUEL_LEVEL, parser.nextHexInt());
+//            position.set(Position.KEY_ODOMETER, parser.nextLong(16, 0));
+//        }
+//
+//        if (parser.hasNext()) {
+//            position.setCourse(parser.nextDouble());
+//        }
+//
+//        if (parser.hasNext()) {
+//            position.set(Position.PREFIX_TEMP + 1, parser.nextDouble(0));
+//        }
+//
+//        return position;
+//    }
 }

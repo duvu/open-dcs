@@ -27,16 +27,8 @@ import java.net.URISyntaxException;
 public class WebSocketClient {
     static final String URL = "ws://127.0.0.1:8081/local";
 
-    private static WebSocketClient instance;
-    Channel channel;
+    private Channel channel;
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
-
-    public static WebSocketClient getInstance() {
-        if (instance == null) {
-            instance = new WebSocketClient();
-        }
-        return instance;
-    }
 
     public WebSocketClient() {
         try {
