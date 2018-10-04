@@ -10,6 +10,13 @@ import java.util.concurrent.atomic.AtomicBoolean;
  */
 public class Main {
     private static final ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(2);
+    static {
+        Runtime.getRuntime().addShutdownHook(new Thread(){
+            public void run() {
+                scheduler.shutdown();
+            }
+        });
+    }
     public static void main(String[] args) {
         Log.info("Initiating DCS server ...");
         try {
