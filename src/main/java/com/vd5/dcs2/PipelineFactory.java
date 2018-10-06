@@ -51,13 +51,13 @@ public abstract class PipelineFactory extends ChannelInitializer<Channel> {
 
             @Override
             public void addLast(String name, ChannelHandler handler) {
-//                if (!(handler instanceof AbstractProtocolDecoder || handler instanceof AbstractProtocolEncoder)) {
-//                    if (handler instanceof ChannelInboundHandler) {
-//                        handler = new WrapperInboundHandler((ChannelInboundHandler) handler);
-//                    } else {
-//                        handler = new WrapperOutboundHandler((ChannelOutboundHandler) handler);
-//                    }
-//                }
+                if (!(handler instanceof AbstractProtocolDecoder || handler instanceof AbstractProtocolEncoder)) {
+                    if (handler instanceof ChannelInboundHandler) {
+                        handler = new WrapperInboundHandler((ChannelInboundHandler) handler);
+                    } else {
+                        handler = new WrapperOutboundHandler((ChannelOutboundHandler) handler);
+                    }
+                }
                 pipeline.addLast(name, handler);
             }
         });
