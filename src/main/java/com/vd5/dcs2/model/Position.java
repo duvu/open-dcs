@@ -139,7 +139,7 @@ public class Position extends Message {
     public static final String ALARM_TAMPERING = "tampering";
     public static final String ALARM_REMOVING = "removing";
 
-    private long deviceId;
+    //private long deviceId;
     private String protocol;
     private Date serverTime;
     private Date deviceTime;
@@ -196,14 +196,6 @@ public class Position extends Message {
 
     public void setProtocol(String protocol) {
         this.protocol = protocol;
-    }
-
-    public long getDeviceId() {
-        return deviceId;
-    }
-
-    public void setDeviceId(long deviceId) {
-        this.deviceId = deviceId;
     }
 
     public Date getServerTime() {
