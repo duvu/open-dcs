@@ -154,8 +154,6 @@ public class Position extends Message {
     private boolean outdated;
     private double accuracy;
     private Network network;
-    private String type;
-
 
     public Position() {
     }
@@ -312,11 +310,4 @@ public class Position extends Message {
         this.network = network;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }
