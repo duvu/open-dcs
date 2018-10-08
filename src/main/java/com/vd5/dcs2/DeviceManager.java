@@ -15,7 +15,7 @@ import java.util.concurrent.ExecutionException;
  */
 public class DeviceManager {
 
-    private final DeviceHub deviceHub = DeviceHub.connect();
+    private final DeviceHub deviceHub;// = DeviceHub.connect();
     LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder().build(
             new CacheLoader<String, Optional<Device>>() {
 
@@ -26,6 +26,10 @@ public class DeviceManager {
                 }
             }
     );
+
+    public DeviceManager() {
+        deviceHub = DeviceHub.connect();
+    }
 
     public Device findByUniqueId(String uniqueId) {
         return deviceHub.deviceByUniqueId(uniqueId);
