@@ -34,7 +34,12 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
         if (msg instanceof Position) {
             Log.info("Updating data to DB: " + ((Position) msg).getProtocol());
             Position position = (Position) msg;
-            ApplicationContext.getWebClient().send(gson.toJson(position));
+            try {
+
+                ApplicationContext.getWebClient().send(gson.toJson(position));
+            } catch (Exception ex) {
+                Log.error("Error with websocket#", ex);
+            }
         }
     }
 
