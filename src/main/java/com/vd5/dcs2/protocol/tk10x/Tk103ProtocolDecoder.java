@@ -248,8 +248,8 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-//        position.setDeviceId(deviceSession.getDeviceId());
-//
+        position.setDeviceId(deviceSession.getDeviceId());
+
 //        getLastLocation(position, null);
 //
 //        position.setNetwork(new Network(CellTower.from(
@@ -340,13 +340,13 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         if (sentence.contains("ZC20")) {
-//            return decodeBattery(channel, remoteAddress, sentence);
+            return decodeBattery(channel, remoteAddress, sentence);
         } else if (sentence.contains("BZ00")) {
-//            return decodeNetwork(channel, remoteAddress, sentence);
+            return decodeNetwork(channel, remoteAddress, sentence);
         } else if (sentence.contains("ZC03")) {
-//            return decodeCommandResult(channel, remoteAddress, sentence);
+            return decodeCommandResult(channel, remoteAddress, sentence);
         } else if (sentence.contains("DW5")) {
-//            return decodeLbsWifi(channel, remoteAddress, sentence);
+            return decodeLbsWifi(channel, remoteAddress, sentence);
         }
 
         Parser parser = new Parser(PATTERN, sentence);

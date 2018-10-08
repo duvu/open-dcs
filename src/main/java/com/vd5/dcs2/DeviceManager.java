@@ -41,9 +41,6 @@ public class DeviceManager {
         }
 
         if (d != null) {
-            Log.info("Device#id " + d.getId());
-            Log.info("Device#deviceId " + d.getDeviceId());
-            Log.info("Device#status " + d.getStatus());
             return d;
         } else {
             return null;
