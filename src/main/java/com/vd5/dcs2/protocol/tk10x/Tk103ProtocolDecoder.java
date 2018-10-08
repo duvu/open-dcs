@@ -9,6 +9,7 @@ import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.DeviceSession;
+import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;
 import io.netty.channel.Channel;
 
@@ -322,12 +323,13 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         return position;
 
     }
-//
-//    //@Override
-//    protected Object decode(
-//            Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
-//
-//        String sentence = (String) msg;
+
+    @Override
+    protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
+
+        String sentence = (String) msg;
+        Log.info("[>_] Tk103ProtocolDecoder: " + sentence);
+        return null;
 //
 //        if (channel != null) {
 //            String id = sentence.substring(1, 13);
@@ -432,5 +434,5 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 //        }
 //
 //        return position;
-//    }
+    }
 }
