@@ -33,11 +33,12 @@ public class DeviceManager {
 
     public Device findByUniqueId(String uniqueId) {
         Log.info("##UniqueId: " + uniqueId);
-        if (deviceHub != null) {
-            return deviceHub.deviceByUniqueId(uniqueId);
-        } else {
-            return null;
-        }
+        Device d = deviceHub.deviceByUniqueId(uniqueId);
+
+        Log.info("Device#id " + d.getId());
+        Log.info("Device#deviceId " + d.getDeviceId());
+        Log.info("Device#status " + d.getStatus());
+        return d;
     }
 
     public long addUnknownDevice(String uniqueId) {
