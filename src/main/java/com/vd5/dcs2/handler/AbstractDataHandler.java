@@ -1,6 +1,6 @@
 package com.vd5.dcs2.handler;
 
-import com.vd5.dcs.model.Position;
+import com.vd5.dcs2.model.Position;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 

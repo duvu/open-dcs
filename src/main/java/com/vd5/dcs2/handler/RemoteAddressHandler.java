@@ -1,6 +1,6 @@
 package com.vd5.dcs2.handler;
 
-import com.vd5.dcs.model.Position;
+import com.vd5.dcs2.model.Position;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -21,7 +21,7 @@ public class RemoteAddressHandler extends ChannelInboundHandlerAdapter {
 
         if (msg instanceof Position) {
             Position position = (Position) msg;
-            position.setRemoteAddress(hostAddress);
+            position.set(Position.KEY_IP, hostAddress);
         }
 
         ctx.fireChannelRead(msg);
