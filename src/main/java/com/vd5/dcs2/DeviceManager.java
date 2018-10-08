@@ -32,7 +32,12 @@ public class DeviceManager {
     }
 
     public Device findByUniqueId(String uniqueId) {
-        return deviceHub.deviceByUniqueId(uniqueId);
+        Log.info("##UniqueId: " + uniqueId);
+        if (deviceHub != null) {
+            return deviceHub.deviceByUniqueId(uniqueId);
+        } else {
+            return null;
+        }
     }
 
     public long addUnknownDevice(String uniqueId) {
