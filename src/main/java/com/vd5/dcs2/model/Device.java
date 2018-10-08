@@ -11,7 +11,8 @@ public class Device implements Serializable {
     private static final long serialVersionUID = -1856504047690847456L;
     private Long id;
     private String deviceId;
-    private boolean enabled;
+
+    private String status;
 
 
     //--
@@ -32,11 +33,11 @@ public class Device implements Serializable {
         this.deviceId = deviceId;
     }
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getStatus() {
+        return status;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setStatus(String status) {
+        this.status = status;
     }
 }
