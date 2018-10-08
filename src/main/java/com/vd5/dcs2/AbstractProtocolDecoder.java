@@ -98,7 +98,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
             if (deviceId == 0) {
                 return ApplicationContext.getDeviceManager().addUnknownDevice(uniqueIds[0]);
             }
-            if (device != null && device.getStatus().equals("enabled")) {
+            if (device != null && !"Disabled".equalsIgnoreCase(device.getStatus())) {
                 return deviceId;
             }
             StringBuilder message = new StringBuilder();
