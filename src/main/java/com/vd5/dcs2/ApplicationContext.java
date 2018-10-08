@@ -114,9 +114,12 @@ public final class ApplicationContext {
 
     private static void initGeocoderCircular() {
         List<Geocoder> geocoderList = Arrays.stream(ApplicationContext.getGeocoderList()).map(x -> {
+            Log.info("###Geocoder### " + x);
             String key = ApplicationContext.getGeocoderKey(x);
             String url = ApplicationContext.getGeocoderURL(x);
             String format = ApplicationContext.getGeocoderFormat(x);
+            Log.info("###Geocoder###key " + key);
+            Log.info("###Geocoder###url " + url);
 
             AddressFormat addressFormat;
             if (StringUtils.isNotEmpty(format)) {
@@ -137,6 +140,7 @@ public final class ApplicationContext {
                     return new NominatimGeocoder(url, key, "en", addressFormat);
             }
         }).collect(Collectors.toList());
+
         circular = new Circular<>(geocoderList);
     }
 
