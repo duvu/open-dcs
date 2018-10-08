@@ -32,13 +32,21 @@ public class DeviceManager {
     }
 
     public Device findByUniqueId(String uniqueId) {
-        Log.info("##UniqueId: " + uniqueId);
-        Device d = deviceHub.deviceByUniqueId(uniqueId);
+        Device d = null;
+        try {
+            d = deviceCache.get(uniqueId).orElse(null);
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        }
 
-        Log.info("Device#id " + d.getId());
-        Log.info("Device#deviceId " + d.getDeviceId());
-        Log.info("Device#status " + d.getStatus());
-        return d;
+        if (d != null) {
+            Log.info("Device#id " + d.getId());
+            Log.info("Device#deviceId " + d.getDeviceId());
+            Log.info("Device#status " + d.getStatus());
+            return d;
+        } else {
+            return null;
+        }
     }
 
     public long addUnknownDevice(String uniqueId) {
