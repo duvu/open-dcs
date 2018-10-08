@@ -3,6 +3,7 @@ package com.vd5.dcs2;
 import com.vd5.dcs.helper.UnitsConverter;
 import com.vd5.dcs2.model.Device;
 import com.vd5.dcs2.model.NetworkMessage;
+import com.vd5.dcs2.model.Position;
 import io.netty.buffer.ByteBuf;
 import io.netty.buffer.ByteBufUtil;
 import io.netty.channel.Channel;
@@ -134,16 +135,15 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
 
     //--
     private void saveOriginal(Object decodedMessage, Object originalMessage) {
-//        if (Context.getConfig().getBoolean("database.saveOriginal") && decodedMessage instanceof Position) {
-//            Position position = (Position) decodedMessage;
-//            if (originalMessage instanceof ByteBuf) {
-//                ByteBuf buf = (ByteBuf) originalMessage;
-//                position.set(Position.KEY_ORIGINAL, ByteBufUtil.hexDump(buf));
-//            } else if (originalMessage instanceof String) {
-//                position.set(Position.KEY_ORIGINAL, DataConverter.printHex(
-//                        ((String) originalMessage).getBytes(StandardCharsets.US_ASCII)));
-//            }
-//        }
+        if (decodedMessage instanceof Position) {
+            Position position = (Position) decodedMessage;
+            if (originalMessage instanceof ByteBuf) {
+                ByteBuf buf = (ByteBuf) originalMessage;
+                position.set(Position.KEY_ORIGINAL, ByteBufUtil.hexDump(buf));
+            } else if (originalMessage instanceof String) {
+                position.set(Position.KEY_ORIGINAL, ((String) originalMessage));
+            }
+        }
     }
 
     @Override
