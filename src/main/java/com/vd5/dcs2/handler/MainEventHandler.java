@@ -32,6 +32,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         if (msg instanceof Position) {
+            Log.info("Updating data to DB: " + ((Position) msg).getProtocol());
             Position position = (Position) msg;
             ApplicationContext.getWebClient().send(gson.toJson(position));
         }
