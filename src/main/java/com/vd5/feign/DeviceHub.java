@@ -15,7 +15,7 @@ public interface DeviceHub {
     @RequestLine("GET /internal/device/{id}")
     Device device(@Param("id") Long id);
 
-    @RequestLine("GET /internal/device/unique={uniqueId}")
+    @RequestLine("GET /internal/device/uniqueId={uniqueId}")
     Device deviceByUniqueId(@Param("uniqueId") String uniqueId);
 
     static DeviceHub connect() {
