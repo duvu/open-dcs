@@ -9,6 +9,7 @@ import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.DeviceSession;
+import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;
 import com.vd5.dcs2.model.Position;
 import io.netty.channel.Channel;
@@ -326,9 +327,9 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
     @Override
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
-
         String sentence = (String) msg;
         if (channel != null) {
+            Log.info("Data#" + sentence);
             String id = sentence.substring(1, 13);
             String type = sentence.substring(13, 17);
             if (type.equals("BP00")) {
