@@ -1,9 +1,9 @@
 package com.vd5.dcs2.handler;
 
-import com.vd5.dcs.model.Position;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs.geocoder.Geocoder;
 import com.vd5.dcs2.Log;
+import com.vd5.dcs2.model.Position;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -27,7 +27,7 @@ public class GeocoderHandler extends ChannelInboundHandlerAdapter {
             Log.info("Geocoder ... Instance of Position");
             Geocoder geocoder = ApplicationContext.getGeocoder();
             final Position position = (Position) message;
-            if (processInvalidPosition || position.isValid()) {
+            if (processInvalidPosition || position.getValid()) {
                 geocoder.getAddress(position.getLatitude(), position.getLongitude(), new Geocoder.ReverseGeocoderCallback() {
 
                     @Override
