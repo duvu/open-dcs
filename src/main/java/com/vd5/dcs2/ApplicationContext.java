@@ -28,6 +28,8 @@ public final class ApplicationContext {
     private static ServerManager serverManager;
     private static AsyncHttpClient asyncHttpClient;
     private static ObjectMapper objectMapper;
+    private static ConnectionManager connectionManager;
+    private static DeviceManager deviceManager;
 
     private static WebSocketClient webClient;
 
@@ -41,7 +43,11 @@ public final class ApplicationContext {
 
         try {
             config.load(EXTERNAL_CONFIG_FILE);
+
             serverManager = new ServerManager();
+            connectionManager = new ConnectionManager();
+            deviceManager = new DeviceManager();
+
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
@@ -167,6 +173,12 @@ public final class ApplicationContext {
         return serverManager;
     }
 
+    public static ConnectionManager getConnectionManager() {
+        return connectionManager;
+    }
+    public static DeviceManager getDeviceManager() {
+        return deviceManager;
+    }
     //--
     public static AsyncHttpClient getAsyncHttpClient() {
         if (asyncHttpClient == null) {

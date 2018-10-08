@@ -29,7 +29,9 @@ public class Position implements Serializable {
 
     private Boolean outdated;
 
-    private String deviceId;
+    private Long deviceId;
+
+    private String uniqueId;
 
     private String deviceImei;
 
@@ -51,7 +53,7 @@ public class Position implements Serializable {
 
     private double altitude;
 
-    private double speedKPH;
+    private double speed;
 
     private double heading;
 

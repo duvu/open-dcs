@@ -1,16 +1,16 @@
 package com.vd5.dcs2.protocol.tk10x;
 
+import com.vd5.dcs.helper.BitUtil;
+import com.vd5.dcs.helper.DateBuilder;
 import com.vd5.dcs.helper.Parser;
 import com.vd5.dcs.helper.PatternBuilder;
-import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
-import com.vd5.dcs.model.Position;
 import com.vd5.dcs.model.WifiAccessPoint;
-import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.AbstractProtocolDecoder;
+import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.DeviceSession;
-import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;
+import com.vd5.dcs2.model.Position;
 import io.netty.channel.Channel;
 
 import java.net.SocketAddress;
@@ -108,18 +108,18 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
     private String decodeAlarm(int value) {
         switch (value) {
-//            case 1:
-//                return Position.ALARM_ACCIDENT;
-//            case 2:
-//                return Position.ALARM_SOS;
-//            case 3:
-//                return Position.ALARM_VIBRATION;
-//            case 4:
-//                return Position.ALARM_LOW_SPEED;
-//            case 5:
-//                return Position.ALARM_OVERSPEED;
-//            case 6:
-//                return Position.ALARM_GEOFENCE_EXIT;
+            case 1:
+                return Position.ALARM_ACCIDENT;
+            case 2:
+                return Position.ALARM_SOS;
+            case 3:
+                return Position.ALARM_VIBRATION;
+            case 4:
+                return Position.ALARM_LOW_SPEED;
+            case 5:
+                return Position.ALARM_OVERSPEED;
+            case 6:
+                return Position.ALARM_GEOFENCE_EXIT;
             default:
                 return null;
         }
@@ -127,59 +127,59 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
     private void decodeType(Position position, String type, String data) {
         switch (type) {
-//            case "BO01":
-//                position.set(Position.KEY_ALARM, decodeAlarm(data.charAt(0) - '0'));
-//                break;
-//            case "ZC11":
-//            case "DW31":
-//            case "DW51":
-//                position.set(Position.KEY_ALARM, Position.ALARM_MOVEMENT);
-//                break;
-//            case "ZC12":
-//            case "DW32":
-//            case "DW52":
-//                position.set(Position.KEY_ALARM, Position.ALARM_LOW_BATTERY);
-//                break;
-//            case "ZC13":
-//            case "DW33":
-//            case "DW53":
-//                position.set(Position.KEY_ALARM, Position.ALARM_POWER_CUT);
-//                break;
-//            case "ZC15":
-//            case "DW35":
-//            case "DW55":
-//                position.set(Position.KEY_IGNITION, true);
-//                break;
-//            case "ZC16":
-//            case "DW36":
-//            case "DW56":
-//                position.set(Position.KEY_IGNITION, false);
-//                break;
-//            case "ZC29":
-//            case "DW42":
-//            case "DW62":
-//                position.set(Position.KEY_IGNITION, true);
-//                break;
-//            case "ZC17":
-//            case "DW37":
-//            case "DW57":
-//                position.set(Position.KEY_ALARM, Position.ALARM_REMOVING);
-//                break;
-//            case "ZC25":
-//            case "DW3E":
-//            case "DW5E":
-//                position.set(Position.KEY_ALARM, Position.ALARM_SOS);
-//                break;
-//            case "ZC26":
-//            case "DW3F":
-//            case "DW5F":
-//                position.set(Position.KEY_ALARM, Position.ALARM_TAMPERING);
-//                break;
-//            case "ZC27":
-//            case "DW40":
-//            case "DW60":
-//                position.set(Position.KEY_ALARM, Position.ALARM_LOW_POWER);
-//                break;
+            case "BO01":
+                position.set(Position.KEY_ALARM, decodeAlarm(data.charAt(0) - '0'));
+                break;
+            case "ZC11":
+            case "DW31":
+            case "DW51":
+                position.set(Position.KEY_ALARM, Position.ALARM_MOVEMENT);
+                break;
+            case "ZC12":
+            case "DW32":
+            case "DW52":
+                position.set(Position.KEY_ALARM, Position.ALARM_LOW_BATTERY);
+                break;
+            case "ZC13":
+            case "DW33":
+            case "DW53":
+                position.set(Position.KEY_ALARM, Position.ALARM_POWER_CUT);
+                break;
+            case "ZC15":
+            case "DW35":
+            case "DW55":
+                position.set(Position.KEY_IGNITION, true);
+                break;
+            case "ZC16":
+            case "DW36":
+            case "DW56":
+                position.set(Position.KEY_IGNITION, false);
+                break;
+            case "ZC29":
+            case "DW42":
+            case "DW62":
+                position.set(Position.KEY_IGNITION, true);
+                break;
+            case "ZC17":
+            case "DW37":
+            case "DW57":
+                position.set(Position.KEY_ALARM, Position.ALARM_REMOVING);
+                break;
+            case "ZC25":
+            case "DW3E":
+            case "DW5E":
+                position.set(Position.KEY_ALARM, Position.ALARM_SOS);
+                break;
+            case "ZC26":
+            case "DW3F":
+            case "DW5F":
+                position.set(Position.KEY_ALARM, Position.ALARM_TAMPERING);
+                break;
+            case "ZC27":
+            case "DW40":
+            case "DW60":
+                position.set(Position.KEY_ALARM, Position.ALARM_LOW_POWER);
+                break;
             default:
                 break;
         }
@@ -214,7 +214,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-        //position.setDeviceId(deviceSession.getDeviceId());
+        position.setDeviceId(deviceSession.getDeviceId());
 
 //        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
 //
@@ -328,111 +328,108 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
 
         String sentence = (String) msg;
-        Log.info("[>_] Tk103ProtocolDecoder: " + sentence);
-        return null;
-//
-//        if (channel != null) {
-//            String id = sentence.substring(1, 13);
-//            String type = sentence.substring(13, 17);
-//            if (type.equals("BP00")) {
-//                channel.writeAndFlush(new NetworkMessage("(" + id + "AP01HSO)", remoteAddress));
-//                return null;
-//            } else if (type.equals("BP05")) {
-//                channel.writeAndFlush(new NetworkMessage("(" + id + "AP05)", remoteAddress));
-//            }
-//        }
-//
-//        if (sentence.contains("ZC20")) {
+        if (channel != null) {
+            String id = sentence.substring(1, 13);
+            String type = sentence.substring(13, 17);
+            if (type.equals("BP00")) {
+                channel.writeAndFlush(new NetworkMessage("(" + id + "AP01HSO)", remoteAddress));
+                return null;
+            } else if (type.equals("BP05")) {
+                channel.writeAndFlush(new NetworkMessage("(" + id + "AP05)", remoteAddress));
+            }
+        }
+
+        if (sentence.contains("ZC20")) {
 //            return decodeBattery(channel, remoteAddress, sentence);
-//        } else if (sentence.contains("BZ00")) {
+        } else if (sentence.contains("BZ00")) {
 //            return decodeNetwork(channel, remoteAddress, sentence);
-//        } else if (sentence.contains("ZC03")) {
+        } else if (sentence.contains("ZC03")) {
 //            return decodeCommandResult(channel, remoteAddress, sentence);
-//        } else if (sentence.contains("DW5")) {
+        } else if (sentence.contains("DW5")) {
 //            return decodeLbsWifi(channel, remoteAddress, sentence);
-//        }
-//
-//        Parser parser = new Parser(PATTERN, sentence);
-//        if (!parser.matches()) {
-//            return null;
-//        }
-//
-//        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
-//        if (deviceSession == null) {
-//            return null;
-//        }
-//
-//        Position position = new Position(getProtocolName());
-//        position.setDeviceId(deviceSession.getDeviceId());
-//
-//        boolean alternative = parser.next() != null;
-//
-//        decodeType(position, parser.next(), parser.next());
-//
-//        DateBuilder dateBuilder = new DateBuilder();
-//        if (alternative) {
-//            dateBuilder.setDateReverse(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-//        } else {
-//            dateBuilder.setDate(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-//        }
-//
-//        position.setValid(parser.next().equals("A"));
-//        position.setLatitude(parser.nextCoordinate());
-//        position.setLongitude(parser.nextCoordinate());
-//
-//        position.setSpeed(convertSpeed(parser.nextDouble(0), "kmh"));
-//
-//        dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
-//        position.setTime(dateBuilder.getDate());
-//
-//        if (parser.hasNext()) {
-//            position.setCourse(parser.nextDouble());
-//        }
-//        if (parser.hasNext()) {
-//            position.setCourse(parser.nextDouble());
-//        }
-//
-//        if (parser.hasNext(7)) {
-//            position.set(Position.KEY_CHARGE, parser.nextInt() == 0);
-//            position.set(Position.KEY_IGNITION, parser.nextInt() == 1);
-//
-//            int mask1 = parser.nextHexInt();
-//            position.set(Position.PREFIX_IN + 2, BitUtil.check(mask1, 0) ? 1 : 0);
-//            position.set("panic", BitUtil.check(mask1, 1) ? 1 : 0);
-//            position.set(Position.PREFIX_OUT + 2, BitUtil.check(mask1, 2) ? 1 : 0);
-//            if (decodeLow || BitUtil.check(mask1, 3)) {
-//                position.set(Position.KEY_BLOCKED, BitUtil.check(mask1, 3) ? 1 : 0);
-//            }
-//
-//            int mask2 = parser.nextHexInt();
-//            for (int i = 0; i < 3; i++) {
-//                if (decodeLow || BitUtil.check(mask2, i)) {
-//                    position.set("hs" + (3 - i), BitUtil.check(mask2, i) ? 1 : 0);
-//                }
-//            }
-//            if (decodeLow || BitUtil.check(mask2, 3)) {
-//                position.set(Position.KEY_DOOR, BitUtil.check(mask2, 3) ? 1 : 0);
-//            }
-//
-//            int mask3 = parser.nextHexInt();
-//            for (int i = 1; i <= 3; i++) {
-//                if (decodeLow || BitUtil.check(mask3, i)) {
-//                    position.set("ls" + (3 - i + 1), BitUtil.check(mask3, i) ? 1 : 0);
-//                }
-//            }
-//
-//            position.set(Position.KEY_FUEL_LEVEL, parser.nextHexInt());
-//            position.set(Position.KEY_ODOMETER, parser.nextLong(16, 0));
-//        }
-//
-//        if (parser.hasNext()) {
-//            position.setCourse(parser.nextDouble());
-//        }
-//
-//        if (parser.hasNext()) {
-//            position.set(Position.PREFIX_TEMP + 1, parser.nextDouble(0));
-//        }
-//
-//        return position;
+        }
+
+        Parser parser = new Parser(PATTERN, sentence);
+        if (!parser.matches()) {
+            return null;
+        }
+
+        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
+        if (deviceSession == null) {
+            return null;
+        }
+
+        Position position = new Position(getProtocolName());
+        position.setDeviceId(deviceSession.getDeviceId());
+
+        boolean alternative = parser.next() != null;
+
+        decodeType(position, parser.next(), parser.next());
+
+        DateBuilder dateBuilder = new DateBuilder();
+        if (alternative) {
+            dateBuilder.setDateReverse(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+        } else {
+            dateBuilder.setDate(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+        }
+
+        position.setValid(parser.next().equals("A"));
+        position.setLatitude(parser.nextCoordinate());
+        position.setLongitude(parser.nextCoordinate());
+
+        position.setSpeed(convertSpeed(parser.nextDouble(0), "kmh"));
+
+        dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
+        position.setTime(dateBuilder.getDate());
+
+        if (parser.hasNext()) {
+            position.setCourse(parser.nextDouble());
+        }
+        if (parser.hasNext()) {
+            position.setCourse(parser.nextDouble());
+        }
+
+        if (parser.hasNext(7)) {
+            position.set(Position.KEY_CHARGE, parser.nextInt() == 0);
+            position.set(Position.KEY_IGNITION, parser.nextInt() == 1);
+
+            int mask1 = parser.nextHexInt();
+            position.set(Position.PREFIX_IN + 2, BitUtil.check(mask1, 0) ? 1 : 0);
+            position.set("panic", BitUtil.check(mask1, 1) ? 1 : 0);
+            position.set(Position.PREFIX_OUT + 2, BitUtil.check(mask1, 2) ? 1 : 0);
+            if (decodeLow || BitUtil.check(mask1, 3)) {
+                position.set(Position.KEY_BLOCKED, BitUtil.check(mask1, 3) ? 1 : 0);
+            }
+
+            int mask2 = parser.nextHexInt();
+            for (int i = 0; i < 3; i++) {
+                if (decodeLow || BitUtil.check(mask2, i)) {
+                    position.set("hs" + (3 - i), BitUtil.check(mask2, i) ? 1 : 0);
+                }
+            }
+            if (decodeLow || BitUtil.check(mask2, 3)) {
+                position.set(Position.KEY_DOOR, BitUtil.check(mask2, 3) ? 1 : 0);
+            }
+
+            int mask3 = parser.nextHexInt();
+            for (int i = 1; i <= 3; i++) {
+                if (decodeLow || BitUtil.check(mask3, i)) {
+                    position.set("ls" + (3 - i + 1), BitUtil.check(mask3, i) ? 1 : 0);
+                }
+            }
+
+            position.set(Position.KEY_FUEL_LEVEL, parser.nextHexInt());
+            position.set(Position.KEY_ODOMETER, parser.nextLong(16, 0));
+        }
+
+        if (parser.hasNext()) {
+            position.setCourse(parser.nextDouble());
+        }
+
+        if (parser.hasNext()) {
+            position.set(Position.PREFIX_TEMP + 1, parser.nextDouble(0));
+        }
+
+        return position;
     }
 }

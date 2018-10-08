@@ -19,7 +19,7 @@ import com.vd5.dcs.model.Network;
 
 import java.util.Date;
 
-public class Position {
+public class Position extends Message {
 
     public static final String KEY_ORIGINAL = "raw";
     public static final String KEY_INDEX = "index";
