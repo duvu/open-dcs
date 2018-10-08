@@ -24,7 +24,7 @@ public class Main {
         }
         Runtime.getRuntime().addShutdownHook(new Thread(){
             public void run() {
-                Log.info("[>_] Shutting down!");
+                Log.info("[>_] Shutting down Scheduler#!");
                 scheduler.shutdown();
             }
         });
