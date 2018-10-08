@@ -14,10 +14,7 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.DefaultHttpHeaders;
 import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
-import io.netty.handler.codec.http.websocketx.CloseWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
-import io.netty.handler.codec.http.websocketx.WebSocketClientHandshakerFactory;
-import io.netty.handler.codec.http.websocketx.WebSocketVersion;
+import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
 import io.netty.util.concurrent.GlobalEventExecutor;
 
@@ -69,6 +66,10 @@ public class WebSocketClient {
 
     public void send(final String data) {
         channel.writeAndFlush(new TextWebSocketFrame(data));
+    }
+
+    public void ping() {
+        channel.writeAndFlush(new PingWebSocketFrame());
     }
 
     //------------------------------------------------------------------------------------------------------------------

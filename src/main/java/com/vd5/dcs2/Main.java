@@ -30,13 +30,13 @@ public class Main {
             }
         });
 
-//        scheduler.scheduleAtFixedRate(new Runnable() {
-//
-//            @Override
-//            public void run() {
-//                Log.info("[>_] Sending data!");
-//                ApplicationContext.getWebClient().send("###Test###");
-//            }
-//        }, 3, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(new Runnable() {
+
+            @Override
+            public void run() {
+                Log.info("[>_] Sending data!");
+                ApplicationContext.getWebClient().send("###Test###");
+            }
+        }, 3, 10, TimeUnit.SECONDS);
     }
 }

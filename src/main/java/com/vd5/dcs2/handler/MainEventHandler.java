@@ -57,7 +57,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
-        Log.warning(formatChannel(ctx.channel()) + " error", cause);
+        Log.error(formatChannel(ctx.channel()) + " error", cause);
         closeChannel(ctx.channel());
     }
 
