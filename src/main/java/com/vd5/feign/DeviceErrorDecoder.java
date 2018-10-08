@@ -1,5 +1,6 @@
 package com.vd5.feign;
 
+import com.vd5.dcs2.Log;
 import feign.Response;
 import feign.codec.ErrorDecoder;
 
@@ -10,6 +11,7 @@ public class DeviceErrorDecoder implements ErrorDecoder {
 
     @Override
     public Exception decode(String s, Response response) {
+        Log.info("DeviceErrorDecoder# " + s);
         return null;
     }
 }

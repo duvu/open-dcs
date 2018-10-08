@@ -21,6 +21,7 @@ public class DeviceManager {
 
                 @Override
                 public Optional<Device> load(@Nonnull String uniqueId) throws Exception {
+
                     Device device = deviceHub.deviceByUniqueId(uniqueId);
                     return Optional.ofNullable(device);
                 }
