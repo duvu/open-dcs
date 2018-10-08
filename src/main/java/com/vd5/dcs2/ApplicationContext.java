@@ -89,7 +89,7 @@ public final class ApplicationContext {
     }
 
     private static String[] getGeocoderList() {
-        String geocoderList = config.getString("geocoder.circular");
+        String geocoderList = StringUtils.deleteWhitespace(config.getString("geocoder.circular"));
         return StringUtils.split(geocoderList, ",");
     }
     private static String getGeocoderKey(String geocoderName) {
