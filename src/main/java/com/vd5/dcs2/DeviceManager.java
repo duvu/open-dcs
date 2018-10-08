@@ -28,12 +28,7 @@ public class DeviceManager {
     );
 
     public Device findByUniqueId(String uniqueId) {
-        try {
-            return deviceCache.get(uniqueId).orElse(null);
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return deviceHub.deviceByUniqueId(uniqueId);
     }
 
     public long addUnknownDevice(String uniqueId) {
