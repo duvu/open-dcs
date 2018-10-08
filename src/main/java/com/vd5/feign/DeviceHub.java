@@ -22,7 +22,7 @@ public interface DeviceHub {
         Decoder decoder = new GsonDecoder();
         return Feign.builder()
                 .decoder(decoder)
-                .errorDecoder(new DeviceErrorDecoder())
+                .errorDecoder(new DeviceErrorDecoder(decoder))
                 .logger(new Logger.ErrorLogger())
                 .logLevel(Logger.Level.BASIC)
                 .target(DeviceHub.class, "http://localhost:8081");
