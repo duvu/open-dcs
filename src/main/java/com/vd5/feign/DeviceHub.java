@@ -16,7 +16,7 @@ public interface DeviceHub {
     Device device(@Param("id") Long id);
 
     @RequestLine("GET /internal/device/unique={uniqueId}")
-    Device deviceByUniqueId(String uniqueId);
+    Device deviceByUniqueId(@Param("uniqueId") String uniqueId);
 
     static DeviceHub connect() {
         Decoder decoder = new GsonDecoder();
