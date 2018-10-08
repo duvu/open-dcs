@@ -92,7 +92,7 @@
     </appender>
 
 
-    <root level="info,debug">
+    <root level="info">
         <!--appender-ref ref="STDOUT"/-->
         <appender-ref ref="COMMON_LOG_FILE"/>
     </root>
