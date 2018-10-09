@@ -1,6 +1,5 @@
 package com.vd5.dcs.model;
 
-import com.vd5.dcs.model.CellTower;
 import lombok.Getter;
 import lombok.Setter;
 

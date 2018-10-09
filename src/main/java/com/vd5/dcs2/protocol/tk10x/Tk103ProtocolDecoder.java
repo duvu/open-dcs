@@ -329,7 +329,6 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
         String sentence = (String) msg;
         if (channel != null) {
-            Log.info("Data#" + sentence);
             String id = sentence.substring(1, 13);
             String type = sentence.substring(13, 17);
             if (type.equals("BP00")) {
@@ -375,10 +374,11 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         position.setValid(parser.next().equals("A"));
-        position.setLatitude(parser.nextCoordinate());
-        position.setLongitude(parser.nextCoordinate());
+        position.setLatitude(round(parser.nextCoordinate(), 6));
+        position.setLongitude(round(parser.nextCoordinate(), 6));
 
-        position.setSpeed(convertSpeed(parser.nextDouble(0), "kmh"));
+        double speedKph = convertSpeed(parser.nextDouble(0), "kmh");
+        position.setSpeed(round(speedKph, 1));
 
         dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
         position.setTime(dateBuilder.getDate());

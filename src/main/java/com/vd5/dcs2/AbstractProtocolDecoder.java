@@ -12,6 +12,7 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.util.ReferenceCountUtil;
 
+import java.math.BigDecimal;
 import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
@@ -131,6 +132,11 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
             default:
                 return value;
         }
+    }
+
+    protected double round(double value, int n) {
+        BigDecimal bigDecimal = new BigDecimal(value);
+        return bigDecimal.setScale(n, BigDecimal.ROUND_HALF_UP).doubleValue();
     }
 
     //--

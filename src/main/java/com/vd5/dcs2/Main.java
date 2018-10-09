@@ -35,7 +35,7 @@ public class Main {
             @Override
             public void run() {
                 Log.info("[>_] Sending data!");
-                ApplicationContext.getWebClient().send("###Test###");
+                ApplicationContext.getWebClient().ping();
             }
         }, 3, 10, TimeUnit.SECONDS);
     }
