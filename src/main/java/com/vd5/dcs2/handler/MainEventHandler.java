@@ -22,7 +22,8 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     private final Set<String> connectionlessProtocols = new HashSet<>();
     private final Gson gson = new Gson();
     private static String formatChannel(Channel channel) {
-        return String.format("[%s]", channel.id().asShortText());
+        return String.format("[%s]", channel.remoteAddress().toString());//.id().asShortText());
+//        return String.format("[%s]", channel.id().asShortText());
     }
 
     @Override
