@@ -102,12 +102,12 @@
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily & on size-->
-            <maxFileSize>10MB</maxFileSize>
+            <maxFileSize>100MB</maxFileSize>
             <fileNamePattern>
                 ${LOG_PATH}/common_%d{dd-MM-yyyy}_%i.log.gz
             </fileNamePattern>
-            <maxHistory>10</maxHistory>
-            <totalSizeCap>100MB</totalSizeCap>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
         </rollingPolicy>
     </appender>
 
