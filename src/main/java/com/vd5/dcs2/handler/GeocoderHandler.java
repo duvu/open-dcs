@@ -24,22 +24,11 @@ public class GeocoderHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelRead(final ChannelHandlerContext context, Object message) throws Exception {
         if (message instanceof Position) {
-            Geocoder geocoder = ApplicationContext.getGeocoder();
             final Position position = (Position) message;
             if (processInvalidPosition || position.getValid()) {
-                geocoder.getAddress(position.getLatitude(), position.getLongitude(), new Geocoder.ReverseGeocoderCallback() {
-
-                    @Override
-                    public void onSuccess(String address) {
-                        position.setAddress(address);
-                        context.fireChannelRead(position);
-                    }
-
-                    @Override
-                    public void onFailure(Throwable e) {
-                        context.fireChannelRead(position);
-                    }
-                });
+                String address = ApplicationContext.getGeocoderManager().get(position.getLatitude(), position.getLongitude());
+                position.setAddress(address);
+                context.fireChannelRead(position);
             } else {
                 context.fireChannelRead(position);
             }

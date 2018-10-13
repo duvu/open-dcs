@@ -23,13 +23,14 @@ public final class ApplicationContext {
     private static final String DCS_WORKER_N_THREAD = "dcs.worker-n-thread";
 
     private static Config config;
-    private static Circular<Geocoder> circular;
+
 
     private static ServerManager serverManager;
     private static AsyncHttpClient asyncHttpClient;
     private static ObjectMapper objectMapper;
     private static ConnectionManager connectionManager;
     private static DeviceManager deviceManager;
+    private static GeocoderManager geocoderManager;
 
     private static WebSocketClient webClient;
 
@@ -47,6 +48,7 @@ public final class ApplicationContext {
             serverManager = new ServerManager();
             connectionManager = new ConnectionManager();
             deviceManager = new DeviceManager();
+            geocoderManager = new GeocoderManager(config);
 
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
@@ -56,8 +58,8 @@ public final class ApplicationContext {
         //--------------------------
         // Geocoder circular
         //--------------------------
-        initGeocoderCircular();
-        //--------------------------
+        //initGeocoderCircular();
+        //--------------------------//
     }
 
     public static Config getConfig() {
@@ -88,61 +90,14 @@ public final class ApplicationContext {
         return config.getInteger("geocoder.reuseDistance", 0);
     }
 
-    private static String[] getGeocoderList() {
-        String geocoderList = StringUtils.deleteWhitespace(config.getString("geocoder.circular"));
-        return StringUtils.split(geocoderList, ",");
-    }
-    private static String getGeocoderKey(String geocoderName) {
-        return config.getString("geocoder." + geocoderName + ".key");
-    }
-
-    private static String getGeocoderURL(String geocoderName) {
-        return config.getString("geocoder." + geocoderName + ".url");
-    }
-
-    private static String getGeocoderFormat(String geocoderName) {
-        return config.getString("geocoder." + geocoderName + ".format");
-    }
-
     public static boolean getProcessInvalidPosition() {
         return config.getBoolean("geocoder.processInvalidPositions");
     }
 
-    public static Geocoder getGeocoder() {
-        return circular.getOne();
+    public static GeocoderManager getGeocoderManager() {
+        return geocoderManager;
     }
 
-    private static void initGeocoderCircular() {
-        List<Geocoder> geocoderList = Arrays.stream(ApplicationContext.getGeocoderList()).map(x -> {
-            Log.info("###Geocoder### " + x);
-            String key = ApplicationContext.getGeocoderKey(x);
-            String url = ApplicationContext.getGeocoderURL(x);
-            String format = ApplicationContext.getGeocoderFormat(x);
-            Log.info("###Geocoder###key " + key);
-            Log.info("###Geocoder###url " + url);
-
-            AddressFormat addressFormat;
-            if (StringUtils.isNotEmpty(format)) {
-                addressFormat = new AddressFormat(format);
-            } else {
-                addressFormat = new AddressFormat();
-            }
-            switch (x) {
-                case "google":
-                    return new GoogleGeocoder(key, "en", addressFormat);
-                case "mapquest":
-                    return new MapQuestGeocoder(url, key, addressFormat);
-                case "bing":
-                    return new BingMapsGeocoder(url, key, addressFormat);
-                case "here":
-                    return new HereGeocoder(url, key, addressFormat);
-                default:
-                    return new NominatimGeocoder(url, key, "en", addressFormat);
-            }
-        }).collect(Collectors.toList());
-
-        circular = new Circular<>(geocoderList);
-    }
 
 
     //--load protocol from config
