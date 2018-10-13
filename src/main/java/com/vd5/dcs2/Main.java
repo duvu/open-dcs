@@ -34,9 +34,9 @@ public class Main {
 
             @Override
             public void run() {
-                Log.info("[>_] Sending data!");
+                Log.info("[>_] HEARTBEAT+");
                 ApplicationContext.getWebClient().ping();
             }
-        }, 3, 10, TimeUnit.SECONDS);
+        }, 3, 1, TimeUnit.MINUTES);
     }
 }
