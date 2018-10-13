@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class DeviceManager {
 
     private final DeviceHub deviceHub;// = DeviceHub.connect();
-    LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder()
+    private LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder()
             .expireAfterWrite(10, TimeUnit.MINUTES)
             .maximumSize(1000)
             .build(
@@ -26,8 +26,13 @@ public class DeviceManager {
                 @Override
                 public Optional<Device> load(@Nonnull String uniqueId) throws Exception {
 
-                    Device device = deviceHub.deviceByUniqueId(uniqueId);
-                    return Optional.ofNullable(device);
+                    try {
+                        Device device = deviceHub.deviceByUniqueId(uniqueId);
+                        return Optional.ofNullable(device);
+                    } catch (Exception ex) {
+                        ex.printStackTrace();
+                        return Optional.empty();
+                    }
                 }
             }
     );
@@ -37,16 +42,10 @@ public class DeviceManager {
     }
 
     public Device findByUniqueId(String uniqueId) {
-        Device d = null;
         try {
-            d = deviceCache.get(uniqueId).orElse(null);
+            return deviceCache.get(uniqueId).orElse(null);
         } catch (ExecutionException e) {
             e.printStackTrace();
-        }
-
-        if (d != null) {
-            return d;
-        } else {
             return null;
         }
     }
