@@ -56,7 +56,6 @@ public class WebSocketClient {
                     });
             channel = bootstrap.connect(uri.getHost(), getPort(uri)).sync().channel();
             handler.handshakeFuture().sync();
-
     }
 
     public void close() throws InterruptedException {
