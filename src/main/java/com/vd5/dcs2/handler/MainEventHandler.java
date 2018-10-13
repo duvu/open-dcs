@@ -10,6 +10,7 @@ import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.handler.timeout.IdleStateEvent;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -57,6 +58,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         Log.error(formatChannel(ctx.channel()) + " error", cause);
+        Log.info(ExceptionUtils.getStackTrace(cause));
         closeChannel(ctx.channel());
     }
 
