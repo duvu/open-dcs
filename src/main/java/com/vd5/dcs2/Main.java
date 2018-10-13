@@ -15,12 +15,8 @@ public class Main {
         Log.info("Initiating DCS server ...");
         try {
             ApplicationContext.getServerManager().start();
-            ApplicationContext.getWebClient().open();
         } catch (InterruptedException e) {
-            e.printStackTrace();
-            Log.error("ERROR", e);
-        } catch (Exception e) {
-            e.printStackTrace();
+            Log.error("Not able to start DCS server", e);
         }
 
         Runtime.getRuntime().addShutdownHook(new Thread(){
