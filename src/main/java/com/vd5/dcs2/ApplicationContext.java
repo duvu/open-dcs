@@ -160,6 +160,7 @@ public final class ApplicationContext {
             try {
                 webClient.open();
             } catch (Exception e) {
+                webClient.close();
                 Log.error("Not able to open websocket-secsion", e);
             }
         }

@@ -1,5 +1,7 @@
 package com.vd5.dcs2;
 
+import com.vd5.dcs2.websocket.WebSocketClient;
+
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -31,7 +33,10 @@ public class Main {
             @Override
             public void run() {
                 Log.info("[>_] HEARTBEAT+");
-                ApplicationContext.getWebClient().ping();
+                WebSocketClient websocket = ApplicationContext.getWebClient();
+                if (!websocket.isClose()) {
+                    ApplicationContext.getWebClient().ping();
+                }
             }
         }, 3, 1, TimeUnit.MINUTES);
     }

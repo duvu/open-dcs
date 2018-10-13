@@ -5,6 +5,7 @@ import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.Position;
+import com.vd5.dcs2.websocket.WebSocketClient;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
@@ -36,7 +37,13 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
             Log.info("Updating data to DB: " + ((Position) msg).getProtocol());
             Position position = (Position) msg;
             try {
-                ApplicationContext.getWebClient().send(gson.toJson(position));
+                WebSocketClient websocket = ApplicationContext.getWebClient();
+                if (!websocket.isClose()) {
+                    websocket.send(gson.toJson(position));
+                } else {
+                    Log.warning("Websocket connection was not established successfully");
+                }
+                //ApplicationContext.getWebClient().send(gson.toJson(position));
             } catch (Exception ex) {
                 Log.error("Error with websocket#", ex);
             }

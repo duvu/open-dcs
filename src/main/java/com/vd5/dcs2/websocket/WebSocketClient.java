@@ -1,6 +1,7 @@
 package com.vd5.dcs2.websocket;
 
 import com.vd5.dcs2.EventLoopGroupFactory;
+import com.vd5.dcs2.Log;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -58,9 +59,13 @@ public class WebSocketClient {
             handler.handshakeFuture().sync();
     }
 
-    public void close() throws InterruptedException {
-        channel.writeAndFlush(new CloseWebSocketFrame());
-        channel.closeFuture().sync();
+    public void close() {
+        try {
+            channel.writeAndFlush(new CloseWebSocketFrame());
+            channel.closeFuture().sync();
+        } catch (InterruptedException e) {
+            Log.error("Exception while close websocket", e);
+        }
     }
 
     public void send(final String data) {
