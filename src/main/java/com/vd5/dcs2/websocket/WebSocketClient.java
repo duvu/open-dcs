@@ -68,7 +68,7 @@ public class WebSocketClient {
     }
 
     public boolean isClose() {
-        return !channel.isOpen() || !channel.isWritable();
+        return (channel == null || !channel.isOpen() || !channel.isWritable());
     }
 
     public void ping() {
