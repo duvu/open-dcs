@@ -9,6 +9,7 @@ import com.vd5.feign.DeviceHub;
 import javax.annotation.Nonnull;
 import java.util.Optional;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author beou on 10/1/18 09:12
@@ -16,7 +17,10 @@ import java.util.concurrent.ExecutionException;
 public class DeviceManager {
 
     private final DeviceHub deviceHub;// = DeviceHub.connect();
-    LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder().build(
+    LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder()
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .maximumSize(1000)
+            .build(
             new CacheLoader<String, Optional<Device>>() {
 
                 @Override
