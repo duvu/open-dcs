@@ -156,6 +156,12 @@ public final class ApplicationContext {
     public static WebSocketClient getWebClient() {
         if (webClient == null) {
             webClient = new WebSocketClient();
+        } else if (webClient.isClose()) {
+            try {
+                webClient.open();
+            } catch (Exception e) {
+                Log.error("Not able to open websocket-secsion", e);
+            }
         }
         return webClient;
     }

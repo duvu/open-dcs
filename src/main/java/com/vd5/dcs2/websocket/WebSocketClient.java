@@ -67,6 +67,10 @@ public class WebSocketClient {
         channel.writeAndFlush(new TextWebSocketFrame(data));
     }
 
+    public boolean isClose() {
+        return !channel.isOpen() || !channel.isWritable();
+    }
+
     public void ping() {
         channel.writeAndFlush(new PingWebSocketFrame());
     }
