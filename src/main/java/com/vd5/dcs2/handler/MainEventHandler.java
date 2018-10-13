@@ -22,8 +22,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     private final Set<String> connectionlessProtocols = new HashSet<>();
     private final Gson gson = new Gson();
     private static String formatChannel(Channel channel) {
-        return String.format("[%s]", channel.remoteAddress().toString());//.id().asShortText());
-//        return String.format("[%s]", channel.id().asShortText());
+        return String.format("[%s]", channel.id().asShortText());
     }
 
     @Override
@@ -59,7 +58,6 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
         Log.error(formatChannel(ctx.channel()) + " error", cause);
-        Log.info(ExceptionUtils.getStackTrace(cause));
         closeChannel(ctx.channel());
     }
 
