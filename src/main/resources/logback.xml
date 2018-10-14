@@ -11,24 +11,13 @@
         </encoder>
     </appender>
 
-    <appender name="TK10X-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="TK10X_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/tk10x.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
                 %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
             </Pattern>
         </encoder>
-
-        <!-- Comment out rolling policies to test how the remaining one works -->
-
-        <!--<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">-->
-            <!--&lt;!&ndash; rollover daily &ndash;&gt;-->
-            <!--<fileNamePattern>-->
-                <!--${LOG_PATH}/archived/dcs.%d{dd-MM-yyyy}.log-->
-            <!--</fileNamePattern>-->
-            <!--<maxHistory>10</maxHistory>-->
-            <!--<totalSizeCap>100MB</totalSizeCap>-->
-        <!--</rollingPolicy>-->
 
         <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
             <!-- rollover daily & on size-->
@@ -39,21 +28,9 @@
             <maxHistory>10</maxHistory>
             <totalSizeCap>100MB</totalSizeCap>
         </rollingPolicy>
-
-        <!--rollingPolicy class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
-            <fileNamePattern>
-                ${LOG_PATH}/dcs_%i.log
-            </fileNamePattern>
-            <minIndex>2</minIndex>
-            <maxIndex>3</maxIndex>
-        </rollingPolicy-->
-
-        <!--triggeringPolicy class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
-            <maxFileSize>1KB</maxFileSize>
-        </triggeringPolicy-->
     </appender>
 
-    <appender name="WLINK-TO-FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <appender name="WLINK_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/wlink.log</file>
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <Pattern>
@@ -114,11 +91,11 @@
 
 
     <logger name="com.vd5.dcs2.protocol.tk10x" level="info">
-        <appender-ref ref="TK10X-TO-FILE"/>
+        <appender-ref ref="TK10X_TO_FILE"/>
     </logger>
 
     <logger name="com.vd5.dcs.protocol.wlink" level="info">
-        <appender-ref ref="WLINK-TO-FILE"/>
+        <appender-ref ref="WLINK_TO_FILE"/>
     </logger>
 
     <logger name="com.vd5.dcs2.websocket" level="info">

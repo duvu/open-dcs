@@ -133,10 +133,14 @@ public class GeocoderManager {
     }
 
     public String get(double lat, double lng) {
-        try {
-            return geocoderCache.get(String.valueOf(lat) + "," + String.valueOf(lng)).orElse("");
-        } catch (ExecutionException e) {
-            e.printStackTrace();
+        if (lat != 0 && lng != 0) {
+            try {
+                return geocoderCache.get(String.valueOf(lat) + "," + String.valueOf(lng)).orElse("");
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+                return "";
+            }
+        } else {
             return "";
         }
     }
