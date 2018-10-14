@@ -102,7 +102,7 @@
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
-    <root level="info,debug,warn">
+    <root level="info">
         <!--appender-ref ref="STDOUT"/-->
         <appender-ref ref="COMMON_LOG_FILE"/>
     </root>
