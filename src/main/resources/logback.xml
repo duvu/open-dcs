@@ -113,15 +113,15 @@
 
 
 
-    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">
+    <logger name="com.vd5.dcs2.protocol.tk10x" level="info">
         <appender-ref ref="TK10X-TO-FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs.protocol.wlink" additivity="false" level="info">
+    <logger name="com.vd5.dcs.protocol.wlink" level="info">
         <appender-ref ref="WLINK-TO-FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.websocket" additivity="false" level="info">
+    <logger name="com.vd5.dcs2.websocket" level="info">
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
