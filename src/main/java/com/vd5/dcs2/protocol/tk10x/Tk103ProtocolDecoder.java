@@ -9,10 +9,11 @@ import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.DeviceSession;
-import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;
 import com.vd5.dcs2.model.Position;
 import io.netty.channel.Channel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.SocketAddress;
 import java.util.regex.Pattern;
@@ -21,6 +22,7 @@ import java.util.regex.Pattern;
  * @author beou on 10/1/18 16:32
  */
 public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private boolean decodeLow;
 
     public Tk103ProtocolDecoder(Tk10xProtocol protocol) {

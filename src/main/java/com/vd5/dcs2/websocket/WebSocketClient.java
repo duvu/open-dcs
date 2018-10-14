@@ -1,14 +1,11 @@
 package com.vd5.dcs2.websocket;
 
 import com.vd5.dcs2.EventLoopGroupFactory;
-import com.vd5.dcs2.Log;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.EventLoopGroup;
-import io.netty.channel.group.ChannelGroup;
-import io.netty.channel.group.DefaultChannelGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -17,16 +14,18 @@ import io.netty.handler.codec.http.HttpClientCodec;
 import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.handler.codec.http.websocketx.extensions.compression.WebSocketClientCompressionHandler;
-import io.netty.util.concurrent.GlobalEventExecutor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.net.URI;
-import java.net.URISyntaxException;
 
 /**
  * @author beou on 10/4/18 16:09
  */
 public class WebSocketClient {
-    static final String URL = "ws://127.0.0.1:8081/local";
+    private final String URL = "ws://127.0.0.1:8081/local";
+
+    private final Logger log = LoggerFactory.getLogger(getClass());
     private final URI uri;
     private Channel channel;
     private static final EventLoopGroup group = new NioEventLoopGroup();
@@ -64,7 +63,7 @@ public class WebSocketClient {
             channel.writeAndFlush(new CloseWebSocketFrame());
             channel.closeFuture().sync();
         } catch (InterruptedException e) {
-            Log.error("Exception while close websocket", e);
+            log.error("Exception while close websocket", e);
         }
     }
 
