@@ -112,15 +112,12 @@
     </appender>
 
 
-    <root level="info">
-        <!--appender-ref ref="STDOUT"/-->
-        <appender-ref ref="COMMON_LOG_FILE"/>
-    </root>
+
     <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">
         <appender-ref ref="TK10X-TO-FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs.protocols.wlink" additivity="false" level="info">
+    <logger name="com.vd5.dcs.protocol.wlink" additivity="false" level="info">
         <appender-ref ref="WLINK-TO-FILE"/>
     </logger>
 
@@ -128,4 +125,8 @@
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
+    <root level="info,debug,warn">
+        <!--appender-ref ref="STDOUT"/-->
+        <appender-ref ref="COMMON_LOG_FILE"/>
+    </root>
 </configuration>

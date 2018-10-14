@@ -11,8 +11,7 @@ import io.netty.channel.ChannelHandlerContext;
 public class Tk103FrameDecoder extends AbstractFrameDecoder {
 
     @Override
-    protected Object decode(
-            ChannelHandlerContext ctx, Channel channel, ByteBuf buf) throws Exception {
+    protected Object decode(ChannelHandlerContext ctx, Channel channel, ByteBuf buf) throws Exception {
 
         if (buf.readableBytes() < 2) {
             return null;

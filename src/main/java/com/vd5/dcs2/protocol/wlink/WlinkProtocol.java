@@ -23,8 +23,11 @@ public class WlinkProtocol extends AbstractProtocol {
 
             @Override
             protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
+                pipelineBuilder.addLast("frameDecoder", new WlinkFrameDecoder());
                 pipelineBuilder.addLast("stringDecoder", new StringDecoder());
                 pipelineBuilder.addLast("stringEncoder", new StringEncoder());
+                pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
+                pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
             }
         });
 
@@ -34,6 +37,8 @@ public class WlinkProtocol extends AbstractProtocol {
             protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
                 pipelineBuilder.addLast("stringDecoder", new StringDecoder());
                 pipelineBuilder.addLast("stringEncoder", new StringEncoder());
+                pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
+                pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
             }
         });
     }
