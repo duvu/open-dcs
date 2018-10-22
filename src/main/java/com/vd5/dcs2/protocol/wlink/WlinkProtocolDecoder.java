@@ -508,7 +508,7 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         String name = parser.next();
         log.info("[>_] Name:     " + name);
 
-        String power = parser.next();
+        int power = parser.nextInt();
         log.info("[>_] power:        " + power);
 
         String rpType = parser.next();
@@ -529,9 +529,9 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         Position position = positions.getLast();
         decodeLocation(parser, position);
 
-//        if (power != null && power > 10) {
-//            position.set(Position.KEY_BATTERY_LEVEL, power * 0.001); // only on some devices
-//        }
+        if (power != 0 && power > 10) {
+            position.set(Position.KEY_BATTERY_LEVEL, power * 0.001); // only on some devices
+        }
 
         return position;
     }
@@ -657,15 +657,22 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         if (parser.hasNext(6)) {
             int mcc = parser.nextInt();
             int mnc = parser.nextInt();
-            CellTower cellTower = CellTower.builder()
-                    .mcc(mcc)
-                    .mnc(mnc)
-                    .lac(parser.nextInt())
-                    .cid(parser.nextInt())
-                    .build();
 
             if (parser.hasNext(2)) {
-                position.setNetwork(new Network(cellTower));
+                position.setNetwork(new Network(CellTower.builder()
+                        .mcc(mcc)
+                        .mnc(mnc)
+                        .lac(parser.nextInt())
+                        .cid(parser.nextInt())
+                        .build()));
+            }
+            if (parser.hasNext(2)) {
+                position.setNetwork(new Network(CellTower.builder()
+                        .mcc(mcc)
+                        .mnc(mnc)
+                        .lac(parser.nextHexInt())
+                        .cid(parser.nextHexInt())
+                        .build()));
             }
         }
 
