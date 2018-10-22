@@ -150,11 +150,11 @@ public class WlinkPatterns {
     public static final Pattern PATTERN_FRI = new PatternBuilder()
             .text("+")
             .expression("(?:RESP|BUFF):GTFRI,")
-            .number("([0-9A-Z]{2}xxxx)?,")       // protocol version
+            .number("([0-9A-Z]{2}xxxx)?,")     // protocol version
             .number("(d{15}|x{14}),")            // imei
-            .expression("([0-9A-Z]+),")          // vin
+            .expression("(?:([0-9A-Z]{17}),)?")  // vin
             .expression("[^,]*,")                // device name
-            .number("(d+)?,")                    // power
+            .number("(d+),")                    // power
             .number("d{1,2},")                   // report type
             .number("d{1,2},")                   // count
             .expression("((?:")
