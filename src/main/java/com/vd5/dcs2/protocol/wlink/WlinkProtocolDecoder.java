@@ -486,7 +486,7 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
     }
 
     private Position handleFRI(Channel channel, SocketAddress remoteAddress, String msg) {
-        log.info("[Wlink >_] FRI");
+        log.info("[Wlink >_] FRI " + msg);
 
         Parser parser = new Parser(WlinkPatterns.PATTERN_FRI, msg);
 
