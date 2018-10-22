@@ -99,9 +99,6 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
 
     @Override
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
-        if (msg instanceof String) {
-            log.info("Got data: " + msg);
-        }
         String message = (String) msg;
 
         if (message.startsWith("+ACK")) {
