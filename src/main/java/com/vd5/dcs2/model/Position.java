@@ -140,6 +140,7 @@ public class Position extends Message {
     public static final String ALARM_REMOVING = "removing";
 
     //private long deviceId;
+    private String imei;
     private String protocol;
     private Date serverTime;
     private Date deviceTime;
@@ -186,6 +187,14 @@ public class Position extends Message {
 //                position.setDeviceTime(new Date());
 //            }
 //        }
+    }
+
+    public String getImei() {
+        return imei;
+    }
+
+    public void setImei(String imei) {
+        this.imei = imei;
     }
 
     public String getProtocol() {
