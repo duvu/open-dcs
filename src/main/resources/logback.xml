@@ -94,7 +94,7 @@
         <appender-ref ref="TK10X_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="all">
+    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info,debug,warn">
         <appender-ref ref="WLINK_TO_FILE"/>
     </logger>
 
