@@ -496,6 +496,7 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
 
         String imei = parser.next();
         log.info("[>_] Imei: " + imei);
+
         DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);
         if (deviceSession == null) {
             return null;
@@ -503,20 +504,16 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
 
         LinkedList<Position> positions = new LinkedList<>();
         String vin = parser.next();
-        log.info("[>_] vin:          " + vin);
-
         String name = parser.next();
-        log.info("[>_] Name:     " + name);
-
         int power = parser.nextInt();
-        log.info("[>_] power:        " + power);
-
         String rpType = parser.next();
-        log.info("[>_] rpType:        " + rpType);
         String count = parser.next();
+
+        log.info("[>_] vin:          " + vin);
+        log.info("[>_] Name:     " + name);
+        log.info("[>_] power:        " + power);
+        log.info("[>_] rpType:        " + rpType);
         log.info("[>_] count:        " + count);
-
-
 
         Parser itemParser = new Parser(WlinkPatterns.PATTERN_LOCATION, parser.next());
         while (itemParser.find()) {
