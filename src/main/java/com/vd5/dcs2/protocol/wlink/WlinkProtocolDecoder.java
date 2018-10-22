@@ -491,7 +491,9 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
             return null;
         }
 
-        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
+        String imei = parser.next();
+        log.info("[>_] Imei: " + imei);
+        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, imei);
         if (deviceSession == null) {
             return null;
         }
