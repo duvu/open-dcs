@@ -511,6 +511,13 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         String power = parser.next();
         log.info("[>_] power:        " + power);
 
+        String rpType = parser.next();
+        log.info("[>_] rpType:        " + rpType);
+        String count = parser.next();
+        log.info("[>_] count:        " + count);
+
+
+
         Parser itemParser = new Parser(WlinkPatterns.PATTERN_LOCATION, parser.next());
         while (itemParser.find()) {
             Position position = new Position();
