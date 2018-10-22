@@ -90,15 +90,15 @@
 
 
 
-    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">
+    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="all">
         <appender-ref ref="TK10X_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info">
+    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="all">
         <appender-ref ref="WLINK_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info">
+    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="all">
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
