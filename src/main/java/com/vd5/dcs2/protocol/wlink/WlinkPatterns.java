@@ -149,7 +149,7 @@ public class WlinkPatterns {
     // +RESP:GTFRI,020301,867844002284563,GL200,0,0,1,1, 58.9,114,-0.4,3.661158,50.989108,20181022093014,0206,0010,4B00,8867,,100,20181022093022,2C5E
     public static final Pattern PATTERN_FRI = new PatternBuilder()
             .text("+")
-            .expression("(?:RESP|BUFF):GTFRI,")
+            .expression("(:RESP|BUFF):GTFRI,")
             .number("(?:[0-9A-Z]{2}xxxx)?,")     // protocol version
             .number("(d{15}|x{14}),")            // imei
             .expression("(?:([0-9A-Z]{17}),)?")  // vin
