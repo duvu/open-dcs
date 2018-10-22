@@ -501,11 +501,10 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         LinkedList<Position> positions = new LinkedList<>();
 
         String uniqueId = parser.next();
-        String vin = parser.next();
-        Integer power = parser.nextInt();
-
         log.info("[>_] UniqueID:     " + uniqueId);
+        String vin = parser.next();
         log.info("[>_] vin:          " + vin);
+        Integer power = parser.nextInt();
         log.info("[>_] power:        " + power);
 
         Parser itemParser = new Parser(WlinkPatterns.PATTERN_LOCATION, parser.next());
