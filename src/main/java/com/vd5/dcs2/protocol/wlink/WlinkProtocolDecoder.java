@@ -500,11 +500,11 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
 
         LinkedList<Position> positions = new LinkedList<>();
 
-        String uniqueId = parser.next();
-        log.info("[>_] UniqueID:     " + uniqueId);
+        String name = parser.next();
+        log.info("[>_] Name:     " + name);
         String vin = parser.next();
         log.info("[>_] vin:          " + vin);
-        Integer power = parser.nextInt();
+        String power = parser.next();
         log.info("[>_] power:        " + power);
 
         Parser itemParser = new Parser(WlinkPatterns.PATTERN_LOCATION, parser.next());
@@ -518,9 +518,9 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         Position position = positions.getLast();
         decodeLocation(parser, position);
 
-        if (power != null && power > 10) {
-            position.set(Position.KEY_BATTERY_LEVEL, power * 0.001); // only on some devices
-        }
+//        if (power != null && power > 10) {
+//            position.set(Position.KEY_BATTERY_LEVEL, power * 0.001); // only on some devices
+//        }
 
         return position;
     }
