@@ -1,7 +1,6 @@
 package com.vd5.dcs2.utils;
 
 import com.google.gson.Gson;
-import sun.plugin2.util.PojoUtil;
 
 /**
  * @author beou on 10/22/18 21:03
