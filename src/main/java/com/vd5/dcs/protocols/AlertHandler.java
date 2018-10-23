@@ -10,7 +10,7 @@
 //import com.vd5.dcs.services.AlertEventLogService;
 //import com.vd5.dcs.services.EmailService;
 //import com.vd5.data.utils.GeoJsonUtils;
-//import com.vd5.dcs.utils.StringUtils;
+//import com.vd5.dcs2.utils.StringUtils;
 //import io.netty.channel.ChannelHandler.Sharable;
 //import io.netty.channel.ChannelHandlerContext;
 //import io.netty.handler.codec.MessageToMessageDecoder;

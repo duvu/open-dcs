@@ -52,6 +52,7 @@ public class DeviceManager {
     }
 
     public long addUnknownDevice(String uniqueId) {
+        ApplicationContext.getWebClient().send();
         return 0l;
     }
 }

@@ -1,6 +1,7 @@
 package com.vd5.dcs2.websocket;
 
 import com.vd5.dcs2.EventLoopGroupFactory;
+import com.vd5.dcs2.utils.GsonFactory;
 import io.netty.bootstrap.Bootstrap;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelInitializer;
@@ -69,6 +70,11 @@ public class WebSocketClient {
 
     public void send(final String data) {
         channel.writeAndFlush(new TextWebSocketFrame(data));
+    }
+
+    public void send(final Object data) {
+        String dt = GsonFactory.getGson().toJson(data);
+        send(dt);
     }
 
     public boolean isClose() {

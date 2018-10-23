@@ -7,7 +7,7 @@
 //import com.vd5.dcs.GeocoderConfiguration;
 //import com.vd5.dcs.geocoder.*;
 //import com.vd5.dcs.model.Position;
-//import com.vd5.dcs.utils.Circular;
+//import com.vd5.dcs2.utils.Circular;
 //import io.netty.channel.ChannelHandler.Sharable;
 //import io.netty.channel.ChannelHandlerContext;
 //import io.netty.handler.codec.MessageToMessageDecoder;

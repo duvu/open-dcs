@@ -1,4 +1,4 @@
-package com.vd5.dcs.utils;
+package com.vd5.dcs2.utils;
 
 import com.google.common.collect.HashMultiset;
 import com.google.common.collect.Iterables;

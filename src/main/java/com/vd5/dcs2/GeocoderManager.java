@@ -5,7 +5,7 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.google.common.util.concurrent.SettableFuture;
 import com.vd5.dcs.geocoder.*;
-import com.vd5.dcs.utils.Circular;
+import com.vd5.dcs2.utils.Circular;
 import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
