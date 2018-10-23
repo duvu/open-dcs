@@ -4,6 +4,8 @@ import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.vd5.dcs2.model.Device;
+import com.vd5.dcs2.model.UnknownDevice;
+import com.vd5.dcs2.model.WSMessage;
 import com.vd5.feign.DeviceHub;
 
 import javax.annotation.Nonnull;
@@ -51,8 +53,10 @@ public class DeviceManager {
         }
     }
 
-    public long addUnknownDevice(String uniqueId) {
-        ApplicationContext.getWebClient().send();
+    public long addUnknownDevice(String uniqueId, String ipAddress, int port) {
+        WSMessage msg = new WSMessage("UNKNOWNDEVICE");
+        msg.setData(new UnknownDevice(uniqueId, ipAddress, port));
+        ApplicationContext.getWebClient().send(msg);
         return 0l;
     }
 }
