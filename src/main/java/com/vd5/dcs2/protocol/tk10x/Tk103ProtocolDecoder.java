@@ -380,6 +380,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         position.setLongitude(round(parser.nextCoordinate(), 6));
 
         double speedKph = convertSpeed(parser.nextDouble(0), "kmh");
+        speedKph = speedKph <= 5.0D ? 0 : speedKph;
         position.setSpeed(round(speedKph, 1));
 
         dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
