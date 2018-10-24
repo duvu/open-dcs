@@ -45,7 +45,13 @@ public class DeviceManager {
 
     public Device findByUniqueId(String uniqueId) {
         try {
-            return deviceCache.get(uniqueId).orElse(null);
+            Optional<Device> opt = deviceCache.get(uniqueId);
+            if (opt.isPresent()) {
+                return opt.get();
+            } else {
+                deviceCache.invalidate(uniqueId);
+                return null;
+            }
         } catch (ExecutionException e) {
             e.printStackTrace();
             return null;
