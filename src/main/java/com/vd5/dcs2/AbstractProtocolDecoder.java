@@ -100,7 +100,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
             if (deviceId == 0) {
                 InetSocketAddress inet = (InetSocketAddress) remoteAddress;
                 String host = inet.getAddress().getHostAddress();
-                int port = inet.getPort();
+                int port = ApplicationContext.getPort(protocol.getName());
                 return ApplicationContext.getDeviceManager().addUnknownDevice(uniqueIds[0], host, port);
             }
             if (device != null && !"Disabled".equalsIgnoreCase(device.getStatus())) {

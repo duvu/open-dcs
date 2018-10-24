@@ -25,13 +25,13 @@ public abstract class TrackerServer {
     private final AbstractBootstrap bootstrap;
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    public TrackerServer(boolean duplex, String protocol) {
+    public TrackerServer(boolean duplex, String protocolName) {
         this.duplex = duplex;
 
-        host = ApplicationContext.getHost(protocol);
-        port = ApplicationContext.getPort(protocol);
+        host = ApplicationContext.getHost(protocolName);
+        port = ApplicationContext.getPort(protocolName);
 
-        PipelineFactory pipelineFactory = new PipelineFactory(this, protocol) {
+        PipelineFactory pipelineFactory = new PipelineFactory(this, protocolName) {
 
             @Override
             protected void addProtocolHandler(PipelineBuilder pipelineBuilder) {
