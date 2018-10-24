@@ -21,7 +21,6 @@ public class DeviceManager {
     private final DeviceHub deviceHub;// = DeviceHub.connect();
     private LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder()
             .expireAfterAccess(8, TimeUnit.HOURS)
-            .refreshAfterWrite(10, TimeUnit.MINUTES)
             .maximumSize(1000)
             .build(
             new CacheLoader<String, Optional<Device>>() {
