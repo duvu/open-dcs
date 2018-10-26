@@ -5,7 +5,6 @@
     <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
         <encoder>
             <pattern>
-                <!--%d{dd-MM-yyyy HH:mm:ss.SSS} %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n-->
                 %magenta([%thread]) %highlight(%-5level) %logger.%M - %msg%n
             </pattern>
         </encoder>
@@ -90,7 +89,7 @@
 
 
 
-    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="all">
+    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info,debug,warn">
         <appender-ref ref="TK10X_TO_FILE"/>
     </logger>
 
@@ -98,7 +97,7 @@
         <appender-ref ref="WLINK_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="all">
+    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info,debug,warn">
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
