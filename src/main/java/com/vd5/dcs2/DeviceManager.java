@@ -1,9 +1,11 @@
 package com.vd5.dcs2;
 
+import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 import com.vd5.dcs2.model.Device;
+import com.vd5.dcs2.model.Position;
 import com.vd5.dcs2.model.UnknownDevice;
 import com.vd5.dcs2.model.WSMessage;
 import com.vd5.feign.DeviceHub;
@@ -39,6 +41,8 @@ public class DeviceManager {
             }
     );
 
+    private Cache<Long, Position> lastPosition = CacheBuilder.newBuilder().build();
+
     public DeviceManager() {
         deviceHub = DeviceHub.connect();
     }
@@ -63,5 +67,15 @@ public class DeviceManager {
         msg.setData(new UnknownDevice(uniqueId, ipAddress, port));
         ApplicationContext.getWebClient().send(msg);
         return 0l;
+    }
+    
+    
+
+    public void updateLastPosition(Position position) {
+        lastPosition.put(position.getId(), position);
+    }
+
+    public Position getLastPosition(Long deviceId) {
+        return lastPosition.getIfPresent(deviceId);
     }
 }

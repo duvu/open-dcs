@@ -17,6 +17,7 @@ import java.net.InetSocketAddress;
 import java.net.SocketAddress;
 import java.nio.charset.StandardCharsets;
 import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -76,6 +77,32 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
                 }
             }
             return channelDeviceSession;
+        }
+    }
+
+    public void getLastLocation(Position position, Date deviceTime) {
+        if (position.getDeviceId() != 0) {
+            position.setOutdated(true);
+
+            Position last = ApplicationContext.getDeviceManager().getLastPosition(position.getDeviceId());
+            if (last != null) {
+                position.setFixTime(last.getFixTime());
+                position.setValid(last.getValid());
+                position.setLatitude(last.getLatitude());
+                position.setLongitude(last.getLongitude());
+                position.setAltitude(last.getAltitude());
+                position.setSpeed(last.getSpeed());
+                position.setCourse(last.getCourse());
+                position.setAccuracy(last.getAccuracy());
+            } else {
+                position.setFixTime(new Date(0));
+            }
+
+            if (deviceTime != null) {
+                position.setDeviceTime(deviceTime);
+            } else {
+                position.setDeviceTime(new Date());
+            }
         }
     }
 

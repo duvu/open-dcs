@@ -38,6 +38,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
             Position position = (Position) msg;
             WSMessage wsMessage = new WSMessage("EVENTDATA");
             wsMessage.setData(position);
+            ApplicationContext.getDeviceManager().updateLastPosition(position);
             ApplicationContext.getWebClient().send(gson.toJson(wsMessage));
         }
     }

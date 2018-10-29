@@ -219,22 +219,22 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
 
-//        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
-//
-//        int batterylevel = parser.nextInt(0);
-//        if (batterylevel != 255) {
-//            position.set(Position.KEY_BATTERY_LEVEL, decodeBattery(batterylevel));
-//        }
-//
-//        int battery = parser.nextInt(0);
-//        if (battery != 65535) {
-//            position.set(Position.KEY_BATTERY, battery * 0.01);
-//        }
-//
-//        int power = parser.nextInt(0);
-//        if (power != 65535) {
-//            position.set(Position.KEY_POWER, power * 0.1);
-//        }
+        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+
+        int batterylevel = parser.nextInt(0);
+        if (batterylevel != 255) {
+            position.set(Position.KEY_BATTERY_LEVEL, decodeBattery(batterylevel));
+        }
+
+        int battery = parser.nextInt(0);
+        if (battery != 65535) {
+            position.set(Position.KEY_BATTERY, battery * 0.01);
+        }
+
+        int power = parser.nextInt(0);
+        if (power != 65535) {
+            position.set(Position.KEY_POWER, power * 0.1);
+        }
 
         return position;
     }
@@ -380,7 +380,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         position.setLongitude(round(parser.nextCoordinate(), 6));
 
         double speedKph = convertSpeed(parser.nextDouble(0), "kmh");
-        speedKph = speedKph <= 5.0D ? 0 : speedKph;
+        speedKph = speedKph <= 3.0D ? 0 : speedKph;
         position.setSpeed(round(speedKph, 1));
 
         dateBuilder.setTime(parser.nextInt(0), parser.nextInt(0), parser.nextInt(0));
