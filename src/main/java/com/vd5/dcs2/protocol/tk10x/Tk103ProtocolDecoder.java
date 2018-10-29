@@ -4,6 +4,7 @@ import com.vd5.dcs.helper.BitUtil;
 import com.vd5.dcs.helper.DateBuilder;
 import com.vd5.dcs.helper.Parser;
 import com.vd5.dcs.helper.PatternBuilder;
+import com.vd5.dcs.model.CellTower;
 import com.vd5.dcs.model.Network;
 import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.AbstractProtocolDecoder;
@@ -253,10 +254,14 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
 
-//        getLastLocation(position, null);
-//
-//        position.setNetwork(new Network(CellTower.from(
-//                parser.nextInt(0), parser.nextInt(0), parser.nextHexInt(0), parser.nextHexInt(0))));
+        getLastLocation(position, null);
+
+        position.setNetwork(new Network(CellTower.from(
+                parser.nextInt(0),
+                parser.nextInt(0),
+                parser.nextHexInt(0),
+                parser.nextHexInt(0))
+        ));
 
         return position;
     }
@@ -273,16 +278,16 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-//        position.setDeviceId(deviceSession.getDeviceId());
+        position.setDeviceId(deviceSession.getDeviceId());
 
         decodeType(position, parser.next(), "0");
 
-//        getLastLocation(position, null);
+        getLastLocation(position, null);
 
         Network network = new Network();
 
-//        network.addCellTower(CellTower.from(
-//                parser.nextInt(), parser.nextInt(), parser.nextInt(), parser.nextInt()));
+        network.addCellTower(CellTower.from(
+                parser.nextInt(), parser.nextInt(), parser.nextInt(), parser.nextInt()));
 
         int wifiCount = parser.nextInt();
         if (parser.hasNext()) {
@@ -297,10 +302,10 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         if (network.getCellTowers() != null || network.getWifiAccessPoints() != null) {
-//            position.setNetwork(network);
+            position.setNetwork(network);
         }
 
-//        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+        position.setTime(parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
 
         return position;
     }
@@ -317,11 +322,11 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         }
 
         Position position = new Position(getProtocolName());
-//        position.setDeviceId(deviceSession.getDeviceId());
-//
-//        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
-//
-//        position.set(Position.KEY_RESULT, parser.next());
+        position.setDeviceId(deviceSession.getDeviceId());
+
+        getLastLocation(position, parser.nextDateTime(Parser.DateTimeFormat.DMY_HMS));
+
+        position.set(Position.KEY_RESULT, parser.next());
 
         return position;
 

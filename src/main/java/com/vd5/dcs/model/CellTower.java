@@ -23,4 +23,13 @@ public class CellTower implements Serializable {
     int lac;
     int cid;
     int rssi;
+
+    public static CellTower from(int mcc, int mnc, int lac, int cid) {
+        CellTower cellTower = new CellTower();
+        cellTower.setMcc(mcc);
+        cellTower.setMnc(mnc);
+        cellTower.setLac(lac);
+        cellTower.setCid(cid);
+        return cellTower;
+    }
 }
