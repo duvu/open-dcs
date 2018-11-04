@@ -63,12 +63,17 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
             String cmdString = textFrame.text();
-            SimpleWSEvent wsEvent = SimpleWSEvent.parse(cmdString);
-            if (wsEvent.getCommand().equalsIgnoreCase("DEVICE_DELETED")) {
-                Long deviceId = Long.parseLong(wsEvent.getData());
-                ApplicationContext.getDeviceManager().remove(deviceId);
+            log.info("Text: " + cmdString);
+            try {
+                SimpleWSEvent wsEvent = SimpleWSEvent.parse(cmdString);
+                if (wsEvent.getCommand().equalsIgnoreCase("DEVICE_DELETED")) {
+                    Long deviceId = Long.parseLong(wsEvent.getData());
+                    ApplicationContext.getDeviceManager().remove(deviceId);
+                }
+            } catch (Exception e) {
+                //--
+                log.error("Got exception!", e);
             }
-
         } else if (frame instanceof PongWebSocketFrame) {
             log.info("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {
