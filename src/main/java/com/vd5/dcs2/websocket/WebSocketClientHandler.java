@@ -67,7 +67,7 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             try {
                 SimpleWSEvent wsEvent = SimpleWSEvent.parse(cmdString);
                 if (wsEvent.getCommand().equalsIgnoreCase("DEVICE_DELETED")) {
-                    Long deviceId = Long.parseLong(wsEvent.getData());
+                    String deviceId = wsEvent.getData();
                     ApplicationContext.getDeviceManager().remove(deviceId);
                 }
             } catch (Exception e) {
