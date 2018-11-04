@@ -62,6 +62,10 @@ public class DeviceManager {
         }
     }
 
+    public void remove(String uniqueId) {
+        deviceCache.invalidate(uniqueId);
+    }
+
     public long addUnknownDevice(String uniqueId, String ipAddress, int port) {
         WSMessage msg = new WSMessage("UNKNOWNDEVICE");
         msg.setData(new UnknownDevice(uniqueId, ipAddress, port));

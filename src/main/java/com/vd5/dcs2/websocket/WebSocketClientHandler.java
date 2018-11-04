@@ -1,5 +1,6 @@
 package com.vd5.dcs2.websocket;
 
+import com.vd5.dcs2.ApplicationContext;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
@@ -61,8 +62,11 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
         WebSocketFrame frame = (WebSocketFrame) msg;
         if (frame instanceof TextWebSocketFrame) {
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
-
-            log.info("WebSocket Client received message: " + textFrame.text());
+            String cmdString = textFrame.text();
+            SimpleWSEvent wsEvent = SimpleWSEvent.parse(cmdString);
+            if (wsEvent.getCommand().equalsIgnoreCase("DEVICE_DELETED")) {
+                ApplicationContext.getDeviceManager().remove(wsEvent.getData());
+            }
 
         } else if (frame instanceof PongWebSocketFrame) {
             log.info("WebSocket Client received pong");
