@@ -89,19 +89,19 @@
 
 
 
-    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info,debug,warn">
+    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">
         <appender-ref ref="TK10X_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info,debug,warn">
+    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info">
         <appender-ref ref="WLINK_TO_FILE"/>
     </logger>
 
-    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info,debug,warn">
+    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info">
         <appender-ref ref="WEBSOCKET"/>
     </logger>
 
-    <root level="info,debug,warn">
+    <root level="info">
         <!--appender-ref ref="STDOUT"/-->
         <appender-ref ref="COMMON_LOG_FILE"/>
     </root>
