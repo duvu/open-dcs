@@ -362,6 +362,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
         Parser parser = new Parser(PATTERN, sentence);
         if (!parser.matches()) {
+            log.info("not matches!");
             return null;
         }
 
