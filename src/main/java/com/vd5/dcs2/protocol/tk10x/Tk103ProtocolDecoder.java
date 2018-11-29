@@ -10,6 +10,7 @@ import com.vd5.dcs.model.WifiAccessPoint;
 import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.DeviceSession;
+import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.NetworkMessage;
 import com.vd5.dcs2.model.Position;
 import io.netty.channel.Channel;
@@ -332,6 +333,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
     }
 
+    //TK103-3
     @Override
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
         String sentence = (String) msg;
@@ -344,6 +346,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
                 return null;
             } else if (type.equals("BP05")) {
                 channel.writeAndFlush(new NetworkMessage("(" + id + "AP05)", remoteAddress));
+                //return null;
             }
         }
 
@@ -359,6 +362,8 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
 
         Parser parser = new Parser(PATTERN, sentence);
         if (!parser.matches()) {
+            //log un-processed data here
+            Log.npyInfo(sentence);
             return null;
         }
 

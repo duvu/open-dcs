@@ -38,7 +38,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
         return protocol.getName();
     }
 
-    public DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String... uniqueIds) {
+    protected DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String... uniqueIds) {
         if (channel != null && channel.pipeline().get("httpDecoder") != null
                 || ApplicationContext.getConfig().getBoolean("decoder.ignoreSessionCache")) {
             long deviceId = findDeviceId(remoteAddress, uniqueIds);

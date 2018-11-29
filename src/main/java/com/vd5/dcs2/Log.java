@@ -1,5 +1,10 @@
 package com.vd5.dcs2;
 
+import ch.qos.logback.classic.Level;
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
+import ch.qos.logback.classic.spi.ILoggingEvent;
+import ch.qos.logback.core.FileAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,17 +27,41 @@ public class Log {
     private static final int STACK_LIMIT = 3;
 
     private static Logger logger = null;
+    private static Logger logToFile = null;
+
+    static  {
+        logger = LoggerFactory.getLogger(LOGGER_NAME);
+        logToFile = createLogerToFile();
+    }
+
+    private static ch.qos.logback.classic.Logger createLogerToFile() {
+        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+        PatternLayoutEncoder ple = new PatternLayoutEncoder();
+        ple.setPattern("%date %level [%thread] %logger{10} [%file:%line] %msg%n");
+        ple.setContext(lc);
+        ple.start();
+
+        FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
+        fileAppender.setFile("not-parsing-yet.log");
+        fileAppender.setEncoder(ple);
+        fileAppender.setContext(lc);
+        fileAppender.start();
+
+        ch.qos.logback.classic.Logger l = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("not-parsed-yet");
+        l.addAppender(fileAppender);
+        l.setLevel(Level.INFO);
+        l.setAdditive(false);
+        return l;
+    }
+
+    public static void npyInfo(String msg) {
+        logToFile.info(msg);
+    }
 
     public static String getAppVersion() {
         return Log.class.getPackage().getImplementationVersion();
     }
 
-    public static Logger getLogger() {
-        if (logger == null) {
-            logger = LoggerFactory.getLogger(LOGGER_NAME);
-        }
-        return logger;
-    }
 
     public static void logSystemInfo() {
         try {
@@ -62,15 +91,15 @@ public class Log {
     }
 
     public static void error(String msg) {
-        getLogger().error(msg);
+        logger.error(msg);
     }
 
     public static void error(String msg, Throwable throwable) {
-        getLogger().error(msg, throwable);
+        logger.error(msg, throwable);
     }
 
     public static void warning(String msg) {
-        getLogger().warn(msg);
+        logger.warn(msg);
     }
 
     public static void warning(Throwable exception) {
@@ -88,15 +117,15 @@ public class Log {
             }
             s.append(exceptionStack(exception));
         }
-        getLogger().warn(s.toString());
+        logger.warn(s.toString());
     }
 
     public static void info(String msg) {
-        getLogger().info(msg);
+        logger.info(msg);
     }
 
     public static void debug(String msg) {
-        getLogger().debug(msg);
+        logger.debug(msg);
     }
 
     public static String exceptionStack(Throwable exception) {
