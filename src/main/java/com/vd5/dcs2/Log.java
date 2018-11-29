@@ -27,35 +27,9 @@ public class Log {
     private static final int STACK_LIMIT = 3;
 
     private static Logger logger = null;
-    private static Logger logToFile = null;
 
     static  {
         logger = LoggerFactory.getLogger(LOGGER_NAME);
-        logToFile = createLogerToFile();
-    }
-
-    private static ch.qos.logback.classic.Logger createLogerToFile() {
-        LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-        PatternLayoutEncoder ple = new PatternLayoutEncoder();
-        ple.setPattern("%date %level [%thread] %logger{10} [%file:%line] %msg%n");
-        ple.setContext(lc);
-        ple.start();
-
-        FileAppender<ILoggingEvent> fileAppender = new FileAppender<ILoggingEvent>();
-        fileAppender.setFile("not-parsing-yet.log");
-        fileAppender.setEncoder(ple);
-        fileAppender.setContext(lc);
-        fileAppender.start();
-
-        ch.qos.logback.classic.Logger l = (ch.qos.logback.classic.Logger) LoggerFactory.getLogger("not-parsed-yet");
-        l.addAppender(fileAppender);
-        l.setLevel(Level.INFO);
-        l.setAdditive(false);
-        return l;
-    }
-
-    public static void npyInfo(String msg) {
-        logToFile.info(msg);
     }
 
     public static String getAppVersion() {
