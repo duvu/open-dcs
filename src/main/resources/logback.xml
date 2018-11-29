@@ -10,43 +10,43 @@
         </encoder>
     </appender>
 
-    <!--<appender name="TK10X_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-        <!--<file>${LOG_PATH}/tk10x.log</file>-->
-        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
-            <!--<Pattern>-->
-                <!--%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n-->
-            <!--</Pattern>-->
-        <!--</encoder>-->
+    <appender name="TK10X_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/tk10x.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
 
-        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
-            <!--&lt;!&ndash; rollover daily & on size&ndash;&gt;-->
-            <!--<maxFileSize>10MB</maxFileSize>-->
-            <!--<fileNamePattern>-->
-                <!--${LOG_PATH}/tk10x_%d{dd-MM-yyyy}_%i.log.gz-->
-            <!--</fileNamePattern>-->
-            <!--<maxHistory>10</maxHistory>-->
-            <!--<totalSizeCap>100MB</totalSizeCap>-->
-        <!--</rollingPolicy>-->
-    <!--</appender>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily & on size-->
+            <maxFileSize>10MB</maxFileSize>
+            <fileNamePattern>
+                ${LOG_PATH}/tk10x_%d{dd-MM-yyyy}_%i.log.gz
+            </fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>100MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
 
-    <!--<appender name="WLINK_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-        <!--<file>${LOG_PATH}/wlink.log</file>-->
-        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
-            <!--<Pattern>-->
-                <!--%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n-->
-            <!--</Pattern>-->
-        <!--</encoder>-->
+    <appender name="WLINK_TO_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/wlink.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
 
-        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
-            <!--&lt;!&ndash; rollover daily & on size&ndash;&gt;-->
-            <!--<maxFileSize>50MB</maxFileSize>-->
-            <!--<fileNamePattern>-->
-                <!--${LOG_PATH}/wlink_%d{dd-MM-yyyy}_%i.log.gz-->
-            <!--</fileNamePattern>-->
-            <!--<maxHistory>10</maxHistory>-->
-            <!--<totalSizeCap>500MB</totalSizeCap>-->
-        <!--</rollingPolicy>-->
-    <!--</appender>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily & on size-->
+            <maxFileSize>50MB</maxFileSize>
+            <fileNamePattern>
+                ${LOG_PATH}/wlink_%d{dd-MM-yyyy}_%i.log.gz
+            </fileNamePattern>
+            <maxHistory>10</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
 
     <appender name="WEBSOCKET" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <file>${LOG_PATH}/websocket.log</file>
@@ -89,13 +89,13 @@
 
 
 
-    <!--<logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">-->
-        <!--<appender-ref ref="TK10X_TO_FILE"/>-->
-    <!--</logger>-->
+    <logger name="com.vd5.dcs2.protocol.tk10x" additivity="false" level="info">
+        <appender-ref ref="TK10X_TO_FILE"/>
+    </logger>
 
-    <!--<logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info">-->
-        <!--<appender-ref ref="WLINK_TO_FILE"/>-->
-    <!--</logger>-->
+    <logger name="com.vd5.dcs2.protocol.wlink" additivity="false" level="info">
+        <appender-ref ref="WLINK_TO_FILE"/>
+    </logger>
 
     <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info">
         <appender-ref ref="WEBSOCKET"/>
