@@ -48,24 +48,24 @@
         <!--</rollingPolicy>-->
     <!--</appender>-->
 
-    <!--<appender name="WEBSOCKET" class="ch.qos.logback.core.rolling.RollingFileAppender">-->
-        <!--<file>${LOG_PATH}/websocket.log</file>-->
-        <!--<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">-->
-            <!--<Pattern>-->
-                <!--%d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n-->
-            <!--</Pattern>-->
-        <!--</encoder>-->
+    <appender name="WEBSOCKET" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <file>${LOG_PATH}/websocket.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <Pattern>
+                %d{dd-MM-yyyy HH:mm:ss.SSS} [%thread] %-5level %logger{36}.%M - %msg%n
+            </Pattern>
+        </encoder>
 
-        <!--<rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">-->
-            <!--&lt;!&ndash; rollover daily & on size&ndash;&gt;-->
-            <!--<maxFileSize>50MB</maxFileSize>-->
-            <!--<fileNamePattern>-->
-                <!--${LOG_PATH}/websocket_%d{dd-MM-yyyy}_%i.log.gz-->
-            <!--</fileNamePattern>-->
-            <!--<maxHistory>10</maxHistory>-->
-            <!--<totalSizeCap>500MB</totalSizeCap>-->
-        <!--</rollingPolicy>-->
-    <!--</appender>-->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- rollover daily & on size-->
+            <maxFileSize>100MB</maxFileSize>
+            <fileNamePattern>
+                ${LOG_PATH}/websocket_%d{dd-MM-yyyy}_%i.log.gz
+            </fileNamePattern>
+            <maxHistory>5</maxHistory>
+            <totalSizeCap>500MB</totalSizeCap>
+        </rollingPolicy>
+    </appender>
 
 
     <appender name="COMMON_LOG_FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
@@ -97,9 +97,9 @@
         <!--<appender-ref ref="WLINK_TO_FILE"/>-->
     <!--</logger>-->
 
-    <!--<logger name="com.vd5.dcs2.websocket"  additivity="false" level="info">-->
-        <!--<appender-ref ref="WEBSOCKET"/>-->
-    <!--</logger>-->
+    <logger name="com.vd5.dcs2.websocket"  additivity="false" level="info">
+        <appender-ref ref="WEBSOCKET"/>
+    </logger>
 
     <root level="info">
         <!--appender-ref ref="STDOUT"/-->
