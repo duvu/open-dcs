@@ -337,7 +337,10 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
     @Override
     protected Object decode(Channel channel, SocketAddress remoteAddress, Object msg) throws Exception {
         String sentence = (String) msg;
+
         log.info("msg: " + msg);
+        Log.npyInfo(sentence);
+
         if (channel != null) {
             String id = sentence.substring(1, 13);
             String type = sentence.substring(13, 17);
@@ -363,7 +366,7 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
         Parser parser = new Parser(PATTERN, sentence);
         if (!parser.matches()) {
             //log un-processed data here
-            Log.npyInfo(sentence);
+            onNotParsedMessage(sentence);
             return null;
         }
 

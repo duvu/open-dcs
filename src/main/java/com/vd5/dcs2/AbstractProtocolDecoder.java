@@ -208,6 +208,10 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
         }
     }
 
+    protected void onNotParsedMessage(String msg) {
+        Log.npyInfo(msg);
+    }
+
     protected void onMessageEvent(
             Channel channel, SocketAddress remoteAddress, Object originalMessage, Object decodedMessage) {
     }
