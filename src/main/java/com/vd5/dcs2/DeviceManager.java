@@ -21,25 +21,6 @@ import java.util.concurrent.TimeUnit;
 public class DeviceManager {
 
     private final DeviceHub deviceHub;// = DeviceHub.connect();
-    private LoadingCache<String, Optional<Device>> deviceCache = CacheBuilder.newBuilder()
-            .expireAfterAccess(8, TimeUnit.HOURS)
-            .maximumSize(1000)
-            .build(
-            new CacheLoader<String, Optional<Device>>() {
-
-                @Override
-                public Optional<Device> load(@Nonnull String uniqueId) throws Exception {
-
-                    try {
-                        Device device = deviceHub.deviceByUniqueId(uniqueId);
-                        return Optional.ofNullable(device);
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        return Optional.empty();
-                    }
-                }
-            }
-    );
 
     private Cache<Long, Position> lastPosition = CacheBuilder.newBuilder().build();
 
@@ -48,31 +29,9 @@ public class DeviceManager {
     }
 
     public Device findByUniqueId(String uniqueId) {
-        try {
-            Optional<Device> opt = deviceCache.get(uniqueId);
-            if (opt.isPresent()) {
-                return opt.get();
-            } else {
-                deviceCache.invalidate(uniqueId);
-                return null;
-            }
-        } catch (ExecutionException e) {
-            e.printStackTrace();
-            return null;
-        }
+        return deviceHub.deviceByUniqueId(uniqueId);
     }
 
-    public void remove(String uniqueId) {
-        deviceCache.invalidate(uniqueId);
-    }
-
-    public void remove(Long id) {
-        deviceCache.asMap().values().forEach(x -> {
-            if (x.isPresent() && x.get().getId().equals(id)) {
-                deviceCache.invalidate(x.get().getDeviceId());
-            }
-        });
-    }
 
     public long addUnknownDevice(String uniqueId, String ipAddress, int port) {
         WSMessage msg = new WSMessage("UNKNOWNDEVICE");
