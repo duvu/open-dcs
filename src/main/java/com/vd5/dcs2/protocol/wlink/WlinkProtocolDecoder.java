@@ -615,7 +615,7 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
     }
 
     private void decodeLocation(Parser parser, Position position) {
-        int hdop = parser.nextInt(0);
+        String hdop = parser.next();
         double speed = parser.nextDouble(0);
         double course = parser.nextDouble(0);
         double altitude = parser.nextDouble(0);
