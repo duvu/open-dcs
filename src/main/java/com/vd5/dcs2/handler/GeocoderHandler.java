@@ -7,6 +7,7 @@ import com.vd5.dcs2.model.Position;
 import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
+import org.apache.commons.lang3.exception.ExceptionUtils;
 
 /**
  * @author beou on 10/1/18 01:50
@@ -38,7 +39,7 @@ public class GeocoderHandler extends ChannelInboundHandlerAdapter {
 
                     @Override
                     public void onFailure(Throwable e) {
-                        Log.info("... geocoding services ... ERROR" );
+                        Log.info("... geocoding services ... ERROR" + e.getMessage());
                         context.fireChannelRead(position);
                     }
                 });
