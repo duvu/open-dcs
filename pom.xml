@@ -107,6 +107,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>dcs</finalName>
 		<plugins>
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -147,50 +148,6 @@
 						</manifest>
 					</archive>
 				</configuration>
-			</plugin>
-
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>appassembler-maven-plugin</artifactId>
-				<version>1.10</version>
-				<executions>
-					<execution>
-						<id>generate-jsw-scripts</id>
-						<phase>package</phase>
-						<goals>
-							<goal>generate-daemons</goal>
-						</goals>
-						<configuration>
-							<repositoryLayout>flat</repositoryLayout>
-							<includeConfigurationDirectoryInClasspath>true</includeConfigurationDirectoryInClasspath>
-							<daemons>
-								<daemon>
-									<id>dcs</id>
-									<wrapperMainClass>org.tanukisoftware.wrapper.WrapperSimpleApp</wrapperMainClass>
-									<mainClass>com.vd5.dcs2.Main</mainClass>
-									<commandLineArguments>
-										<commandLineArgument>start</commandLineArgument>
-									</commandLineArguments>
-
-									<generatorConfigurations>
-										<generatorConfiguration>
-											<generator>jsw</generator>
-											<includes>
-												<include>linux-x86-32</include>
-												<include>linux-x86-64</include>
-												<include>windows-x86-32</include>
-											</includes>
-										</generatorConfiguration>
-									</generatorConfigurations>
-
-									<platforms>
-										<platform>jsw</platform>
-									</platforms>
-								</daemon>
-							</daemons>
-						</configuration>
-					</execution>
-				</executions>
 			</plugin>
 		</plugins>
 	</build>

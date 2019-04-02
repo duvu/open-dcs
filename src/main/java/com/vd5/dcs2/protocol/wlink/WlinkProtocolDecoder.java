@@ -560,7 +560,7 @@ public class WlinkProtocolDecoder extends AbstractProtocolDecoder {
         int state = parser.nextInt();
 
         decodeLocation(parser, position);
-        decodeDeviceTime(parser, position);
+        //decodeDeviceTime(parser, position);
         return position;
     }
 
