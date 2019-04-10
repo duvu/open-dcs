@@ -13,6 +13,8 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.handler.timeout.IdleStateEvent;
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -23,6 +25,9 @@ import java.util.Set;
 public class MainEventHandler extends ChannelInboundHandlerAdapter {
     private final Set<String> connectionlessProtocols = new HashSet<>();
     private final Gson gson = new Gson();
+
+    Logger log = LoggerFactory.getLogger(getClass());
+
     private static String formatChannel(Channel channel) {
         return String.format("[%s]", channel.id().asShortText());
     }
@@ -46,7 +51,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
-        Log.info(formatChannel(ctx.channel()) + " disconnected");
+        log.info(formatChannel(ctx.channel()) + " disconnected");
         closeChannel(ctx.channel());
 
         AbstractProtocolDecoder protocolDecoder = (AbstractProtocolDecoder) ctx.pipeline().get("objectDecoder");
@@ -70,7 +75,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
         }
     }
     private void closeChannel(Channel channel) {
-        if (!(channel instanceof DatagramChannel)) {
+        if (channel.isActive() && !(channel instanceof DatagramChannel)) {
             channel.close();
         }
     }
