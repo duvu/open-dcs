@@ -24,8 +24,8 @@ public class GeocoderHandler extends ChannelInboundHandlerAdapter {
 
     @Override
     public void channelRead(final ChannelHandlerContext context, Object message) {
-        Log.info("... geocoding services ...");
         if (message instanceof Position) {
+            Log.info("[_> message is a Position]");
             final Position position = (Position) message;
             if (processInvalidPosition || position.getValid()) {
                 ApplicationContext.getGeocoderManager().get(position.getLatitude(), position.getLongitude(), new Geocoder.ReverseGeocoderCallback() {
@@ -47,6 +47,7 @@ public class GeocoderHandler extends ChannelInboundHandlerAdapter {
                 context.fireChannelRead(position);
             }
         } else {
+            Log.info("[_> message is NOT a Position]");
             context.fireChannelRead(message);
         }
     }
