@@ -24,7 +24,7 @@ import java.net.URI;
  * @author beou on 10/4/18 16:09
  */
 public class WebSocketClient {
-    private final String URL = "ws://127.0.0.1:8083/local";
+    private final String URL = "ws://127.0.0.1:8081/local";
 
     private final Logger log = LoggerFactory.getLogger(getClass());
     private final URI uri;

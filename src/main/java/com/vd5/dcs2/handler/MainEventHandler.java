@@ -46,7 +46,6 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
             ApplicationContext.getDeviceManager().updateLastPosition(position);
             ApplicationContext.getWebClient().send(gson.toJson(wsMessage));
         }
-        //closeChannel(ctx.channel());
     }
 
     @Override

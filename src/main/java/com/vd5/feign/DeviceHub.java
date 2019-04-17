@@ -25,7 +25,7 @@ public interface DeviceHub {
                 .errorDecoder(new DeviceErrorDecoder(decoder))
                 .logger(new Logger.ErrorLogger())
                 .logLevel(Logger.Level.BASIC)
-                .target(DeviceHub.class, "http://localhost:8083");
+                .target(DeviceHub.class, "http://localhost:8081");
     }
 
 }
