@@ -51,7 +51,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelInactive(ChannelHandlerContext ctx) throws Exception {
         log.info(formatChannel(ctx.channel()) + " disconnected");
-        ctx.channel().close();
+        closeChannel(ctx.channel());
 
         AbstractProtocolDecoder protocolDecoder = (AbstractProtocolDecoder) ctx.pipeline().get("objectDecoder");
         if (ctx.pipeline().get("httpDecoder") == null
@@ -74,7 +74,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
         }
     }
     private void closeChannel(Channel channel) {
-        if (channel.isActive() && !(channel instanceof DatagramChannel)) {
+        if (!(channel instanceof DatagramChannel)) {
             channel.close();
         }
     }
