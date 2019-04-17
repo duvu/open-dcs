@@ -27,7 +27,7 @@ public class DeviceManager {
 
 
     public long addUnknownDevice(String uniqueId, String ipAddress, int port) {
-        WSMessage msg = new WSMessage("UNKNOWNDEVICE");
+        WSMessage msg = new WSMessage(WSMessage.UNKNOWN_DEVICE);
         msg.setData(new UnknownDevice(uniqueId, ipAddress, port));
         ApplicationContext.getWebClient().send(msg);
         return 0l;

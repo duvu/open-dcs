@@ -4,6 +4,8 @@ package com.vd5.dcs2.model;
  * @author beou on 10/24/18 01:28
  */
 public class WSMessage {
+    public static final String UNKNOWN_DEVICE = "UNKNOWNDEVICE";
+
     private String command;
     private Object data;
 
