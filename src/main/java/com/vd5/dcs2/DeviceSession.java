@@ -7,6 +7,7 @@ import java.util.TimeZone;
  */
 public class DeviceSession {
     private final Long deviceId;
+
     private TimeZone timeZone;
 
     public DeviceSession(Long deviceId) {

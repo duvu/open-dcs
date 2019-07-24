@@ -342,6 +342,10 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
             String id = sentence.substring(1, 13);
             String type = sentence.substring(13, 17);
             if (type.equals("BP00")) {
+                // (044073936784BP00352544073936784HSO)
+                String imei = sentence.substring(17, 32);
+                // init DeviceSession
+                getDeviceSession(channel, remoteAddress, imei);
                 channel.writeAndFlush(new NetworkMessage("(" + id + "AP01HSO)", remoteAddress));
                 return null;
             } else if (type.equals("BP05")) {
@@ -366,10 +370,13 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
             return null;
         }
 
-        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
+        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);
         if (deviceSession == null) {
             return null;
         }
+
+        //Id...
+        parser.next();
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
