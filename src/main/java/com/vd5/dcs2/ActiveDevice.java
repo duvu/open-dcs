@@ -28,7 +28,9 @@ public class ActiveDevice {
         return deviceId;
     }
 
-    public void sendCommand() {
-
+    public void sendCommand(String cmd) {
+        if (this.channel.isActive()) {
+            this.channel.writeAndFlush(cmd);
+        }
     }
 }

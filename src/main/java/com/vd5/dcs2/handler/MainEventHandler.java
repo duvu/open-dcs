@@ -24,7 +24,6 @@ import java.util.Set;
  */
 public class MainEventHandler extends ChannelInboundHandlerAdapter {
     private final Set<String> connectionlessProtocols = new HashSet<>();
-    private final Gson gson = new Gson();
 
     Logger log = LoggerFactory.getLogger(getClass());
 
@@ -44,7 +43,7 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
             WSMessage wsMessage = new WSMessage("EVENTDATA");
             wsMessage.setData(position);
             ApplicationContext.getDeviceManager().updateLastPosition(position);
-            ApplicationContext.getWebClient().send(gson.toJson(wsMessage));
+            ApplicationContext.getWebClient().send(wsMessage);
         }
     }
 

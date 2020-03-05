@@ -42,7 +42,7 @@ public abstract class AbstractProtocol implements Protocol {
 
     @Override
     public void sendDataCommand(ActiveDevice activeDevice, String command) {
-        //todo
+        activeDevice.sendCommand(command);
     }
 
     @Override
