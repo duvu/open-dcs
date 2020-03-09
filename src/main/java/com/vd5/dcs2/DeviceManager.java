@@ -15,7 +15,7 @@ public class DeviceManager {
 
     private final DeviceHub deviceHub;// = DeviceHub.connect();
 
-    private Cache<Long, Position> lastPosition = CacheBuilder.newBuilder().build();
+    private Cache<String, Position> lastPosition = CacheBuilder.newBuilder().build();
 
     public DeviceManager() {
         deviceHub = DeviceHub.connect();
@@ -36,10 +36,10 @@ public class DeviceManager {
     
 
     public void updateLastPosition(Position position) {
-        lastPosition.put(position.getId(), position);
+        lastPosition.put(position.getDeviceId(), position);
     }
 
-    public Position getLastPosition(Long deviceId) {
+    public Position getLastPosition(String deviceId) {
         return lastPosition.getIfPresent(deviceId);
     }
 

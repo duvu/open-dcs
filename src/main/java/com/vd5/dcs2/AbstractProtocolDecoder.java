@@ -38,7 +38,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
         return protocol.getName();
     }
 
-    protected DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String... uniqueIds) {
+    protected DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String uniqueIds) {
         if (channel != null && channel.pipeline().get("httpDecoder") != null
                 || ApplicationContext.getConfig().getBoolean("decoder.ignoreSessionCache")) {
             long deviceId = findDeviceId(remoteAddress, uniqueIds);
@@ -46,7 +46,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
                 if (ApplicationContext.getConnectionManager() != null) {
                     ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
                 }
-                return new DeviceSession(deviceId);
+                return new DeviceSession(uniqueIds);
             } else {
                 return null;
             }
@@ -54,10 +54,10 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
         if (channel instanceof DatagramChannel) {
             long deviceId = findDeviceId(remoteAddress, uniqueIds);
             DeviceSession deviceSession = addressDeviceSessions.get(remoteAddress);
-            if (deviceSession != null && (deviceSession.getDeviceId() == deviceId || uniqueIds.length == 0)) {
+            if (deviceSession != null && (deviceSession.getDeviceId().equalsIgnoreCase(uniqueIds))) {
                 return deviceSession;
             } else if (deviceId != 0) {
-                deviceSession = new DeviceSession(deviceId);
+                deviceSession = new DeviceSession(uniqueIds);
                 addressDeviceSessions.put(remoteAddress, deviceSession);
                 if (ApplicationContext.getConnectionManager() != null) {
                     ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
@@ -70,7 +70,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
             if (channelDeviceSession == null) {
                 long deviceId = findDeviceId(remoteAddress, uniqueIds);
                 if (deviceId != 0) {
-                    channelDeviceSession = new DeviceSession(deviceId);
+                    channelDeviceSession = new DeviceSession(uniqueIds);
                     if (ApplicationContext.getConnectionManager() != null) {
                         ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
                     }
@@ -81,7 +81,7 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
     }
 
     public void getLastLocation(Position position, Date deviceTime) {
-        if (position.getDeviceId() != 0) {
+        if (position.getDeviceId() != null) {
             position.setOutdated(true);
 
             Position last = ApplicationContext.getDeviceManager().getLastPosition(position.getDeviceId());

@@ -17,13 +17,13 @@ package com.vd5.dcs2.model;
 
 public class Message extends ExtendedModel {
 
-    private long deviceId;
+    private String deviceId;
 
-    public long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 
-    public void setDeviceId(long deviceId) {
+    public void setDeviceId(String deviceId) {
         this.deviceId = deviceId;
     }
 

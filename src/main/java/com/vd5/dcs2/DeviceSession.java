@@ -6,15 +6,15 @@ import java.util.TimeZone;
  * @author beou on 10/1/18 15:37
  */
 public class DeviceSession {
-    private final Long deviceId;
+    private final String deviceId;
 
     private TimeZone timeZone;
 
-    public DeviceSession(Long deviceId) {
+    public DeviceSession(String deviceId) {
         this.deviceId = deviceId;
     }
 
-    public Long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 

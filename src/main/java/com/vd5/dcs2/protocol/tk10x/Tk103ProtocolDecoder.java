@@ -370,13 +370,10 @@ public class Tk103ProtocolDecoder extends AbstractProtocolDecoder {
             return null;
         }
 
-        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress);
+        DeviceSession deviceSession = getDeviceSession(channel, remoteAddress, parser.next());
         if (deviceSession == null) {
             return null;
         }
-
-        //Id...
-        parser.next();
 
         Position position = new Position(getProtocolName());
         position.setDeviceId(deviceSession.getDeviceId());
