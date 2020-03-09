@@ -1,7 +1,7 @@
 package com.vd5.dcs2;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.vd5.dcs2.utils.Circular;
+import com.vd5.config.Config;
 import com.vd5.dcs2.model.ProtocolObject;
 import com.vd5.dcs2.websocket.WebSocketClient;
 import org.apache.commons.lang3.StringUtils;
@@ -30,39 +30,25 @@ public final class ApplicationContext {
 
     private static WebSocketClient webClient;
 
-    private static final String EXTERNAL_CONFIG_FILE = "app.conf";
-
     private ApplicationContext() {}
 
     static {
-        config = new Config();
-
-
         try {
-            config.load(EXTERNAL_CONFIG_FILE);
-
+            config = new Config();
             serverManager = new ServerManager();
             connectionManager = new ConnectionManager();
             deviceManager = new DeviceManager();
-            geocoderManager = new GeocoderManager(config);
+            geocoderManager = new GeocoderManager();
 
         } catch (IOException | ClassNotFoundException | IllegalAccessException | InstantiationException e) {
             e.printStackTrace();
         }
-
-
-        //--------------------------
-        // Geocoder circular
-        //--------------------------
-        //initGeocoderCircular();
-        //--------------------------//
     }
 
     public static Config getConfig() {
         return config;
     }
 
-    //------
     //------
     public static int getBossNThread() {
         return config.getInteger(DCS_BOSS_N_THREAD, 2);
@@ -121,6 +107,9 @@ public final class ApplicationContext {
     }
     public static int getPort(String protocolName) {
         return config.getInteger("protocol." + protocolName + ".port");
+    }
+    public static boolean isDuplex(String protocolName) {
+        return config.getBoolean("protocol." + protocolName + ".duplex");
     }
 
     //------------------------------------------------------------------------------------------------------------------

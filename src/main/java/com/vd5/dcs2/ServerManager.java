@@ -12,21 +12,16 @@ import java.util.concurrent.ConcurrentHashMap;
  */
 public class ServerManager {
     private final List<TrackerServer> serverList = new LinkedList<>();
+    private final Map<String, TrackerServer> serverMap = new ConcurrentHashMap<>();
     private final Map<String, AbstractProtocol> protocolMap = new ConcurrentHashMap<>();
 
     public ServerManager() throws ClassNotFoundException, IllegalAccessException, InstantiationException {
         String[] nameList = ApplicationContext.getProtocolNameList();
         for (String name: nameList) {
             ProtocolObject protocolObject = ApplicationContext.getProtocolObject(name);
-            Log.info("Protocol #" + name + " is enabled");
+            Log.info("Protocol #{} is enabled", name);
             if (protocolObject.isEnabled()) {
-                Class protocolClazz = Class.forName(protocolObject.getClazz());
-                if (AbstractProtocol.class.isAssignableFrom(protocolClazz)) {
-                    AbstractProtocol protocol = (AbstractProtocol) protocolClazz.newInstance();
-
-                    initProtocolServer(protocol);
-                    protocolMap.put(protocol.getName(), protocol);
-                }
+                initProtocolServer(protocolObject);
             }
         }
     }
@@ -47,7 +42,23 @@ public class ServerManager {
         }
     }
 
-    private void initProtocolServer(final Protocol protocol) {
+    public void start(String name) throws InterruptedException {
+        final Protocol protocol = protocolMap.get(name);
         protocol.initTrackerServer(serverList);
+
+        serverMap.get(name + ".duplex").start();
+    }
+
+    public void stop(String name) {
+
+    }
+
+    private void initProtocolServer(ProtocolObject protocolObject) throws ClassNotFoundException, IllegalAccessException, InstantiationException {
+        Class protocolClazz = Class.forName(protocolObject.getClazz());
+        if (AbstractProtocol.class.isAssignableFrom(protocolClazz)) {
+            AbstractProtocol protocol = (AbstractProtocol) protocolClazz.newInstance();
+            protocol.initTrackerServer(serverList);
+            protocolMap.put(protocol.getName(), protocol);
+        }
     }
 }

@@ -1,62 +1,26 @@
-package com.vd5.dcs2;
+package com.vd5.config;
+
+import com.vd5.dcs2.Log;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.InvalidPropertiesFormatException;
 import java.util.Properties;
 
 /**
  * @author beou on 10/1/18 01:09
  */
 public class Config {
-    private final Properties properties = new Properties();
+    private final Properties2 properties = new Properties2();
 
     private boolean useEnvironmentVariables;
 
-    public void load(String file) throws IOException {
-        try {
-            Properties mainProperties = new Properties();
-            InputStream is = getInputStream(file);
-
-            if (is != null) {
-                mainProperties.load(getInputStream(file));
-            } else {
-                Log.info("Notable to load " + file);
-            }
-
-            InputStream is2 = getInputStream("default.conf");
-            if (is2 != null) {
-                properties.load(is2);
-            } else {
-                Log.info("Notable to load default.conf");
-            }
-
-            properties.putAll(mainProperties); // override defaults
-
-            useEnvironmentVariables = Boolean.parseBoolean(System.getenv("CONFIG_USE_ENVIRONMENT_VARIABLES"))
-                    || Boolean.parseBoolean(properties.getProperty("config.useEnvironmentVariables"));
-        } catch (InvalidPropertiesFormatException e) {
-            throw new RuntimeException("Configuration file is not a valid XML document", e);
-        }
+    public Config() throws IOException {
+        properties.load("default.properties");
+        useEnvironmentVariables = Boolean.parseBoolean(System.getenv("CONFIG_USE_ENVIRONMENT_VARIABLES"))
+                || Boolean.parseBoolean(properties.getProperty("config.useEnvironmentVariables"));
     }
-
-    private InputStream getInputStream(String file) {
-        Log.info("Loading file: " + file);
-        InputStream inputStream = Thread.currentThread().getContextClassLoader().getResourceAsStream(file);;
-
-        if (inputStream == null) {
-            try {
-                inputStream = new FileInputStream(file);
-            } catch (FileNotFoundException e) {
-                e.printStackTrace();
-            }
-        }
-        return inputStream;
-    }
-
-
 
     public boolean hasKey(String key) {
         return useEnvironmentVariables && System.getenv().containsKey(getEnvironmentVariableName(key))

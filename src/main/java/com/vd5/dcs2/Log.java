@@ -1,10 +1,5 @@
 package com.vd5.dcs2;
 
-import ch.qos.logback.classic.Level;
-import ch.qos.logback.classic.LoggerContext;
-import ch.qos.logback.classic.encoder.PatternLayoutEncoder;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.FileAppender;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -97,6 +92,11 @@ public class Log {
     public static void info(String msg) {
         logger.info(msg);
     }
+
+    public static void info(String format, Object... arguments) {
+        logger.info(format, arguments);
+    }
+
 
     public static void debug(String msg) {
         logger.debug(msg);

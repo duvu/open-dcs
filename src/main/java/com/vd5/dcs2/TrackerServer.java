@@ -9,6 +9,7 @@ import io.netty.channel.epoll.EpollChannelOption;
 import io.netty.channel.epoll.EpollDatagramChannel;
 import io.netty.channel.group.ChannelGroup;
 import io.netty.channel.group.DefaultChannelGroup;
+import io.netty.channel.socket.nio.NioDatagramChannel;
 import io.netty.channel.socket.nio.NioServerSocketChannel;
 import io.netty.util.concurrent.GlobalEventExecutor;
 import org.apache.commons.lang3.StringUtils;
@@ -20,22 +21,21 @@ import java.net.InetSocketAddress;
  */
 public abstract class TrackerServer {
     private final boolean duplex;
-    private int port;
-    private String host;
+    private final int port;
+    private final String host;
     private final AbstractBootstrap bootstrap;
     private final ChannelGroup channelGroup = new DefaultChannelGroup(GlobalEventExecutor.INSTANCE);
 
-    public TrackerServer(boolean duplex, String protocolName) {
-        this.duplex = duplex;
-
+    public TrackerServer(boolean isDuplex, String protocolName) {
+        duplex = isDuplex; //ApplicationContext.isDuplex(protocolName);
         host = ApplicationContext.getHost(protocolName);
         port = ApplicationContext.getPort(protocolName);
 
         PipelineFactory pipelineFactory = new PipelineFactory(this, protocolName) {
 
             @Override
-            protected void addProtocolHandler(PipelineBuilder pipelineBuilder) {
-                TrackerServer.this.addProtocolHandlers(pipelineBuilder);
+            protected void addProtocolHandler(PipelineBuilder pipeline) {
+                TrackerServer.this.addProtocolHandlers(pipeline);
             }
         };
 
@@ -45,11 +45,9 @@ public abstract class TrackerServer {
                     .channel(NioServerSocketChannel.class)
                     .childHandler(pipelineFactory);
         } else {
-            bootstrap = new Bootstrap();
-            bootstrap.group(EventLoopGroupFactory.getEpollGroup())
-                    .channel(EpollDatagramChannel.class)
-                    .option(ChannelOption.SO_BROADCAST, true)
-                    .option(EpollChannelOption.SO_REUSEPORT, true)
+            this.bootstrap = new Bootstrap()
+                    .group(EventLoopGroupFactory.getWorkerGroup())
+                    .channel(NioDatagramChannel.class)
                     .handler(pipelineFactory);
         }
     }
@@ -57,24 +55,17 @@ public abstract class TrackerServer {
     protected abstract void addProtocolHandlers(PipelineBuilder pipelineBuilder);
 
     public void start() throws InterruptedException {
-        Log.info("Starting *"+port);
-        InetSocketAddress enpoint;
+        Log.info("Starting *{}", port);
+        InetSocketAddress endpoint;
         if (StringUtils.isNotEmpty(host)) {
-            enpoint = new InetSocketAddress(host, port);
+            endpoint = new InetSocketAddress(host, port);
         } else {
-            enpoint = new InetSocketAddress(port);
+            endpoint = new InetSocketAddress(port);
         }
 
-        if (duplex) {
-            Channel channel = bootstrap.bind(enpoint).sync().channel();
-            if (channel != null) {
-                channelGroup.add(channel);
-            }
-        } else {
-            for (int i = 0; i < ApplicationContext.getWorkerNThread(); i++) {
-                Channel channel= bootstrap.bind(enpoint).sync().channel();
-                channelGroup.add(channel);
-            }
+        Channel channel = bootstrap.bind(endpoint).sync().channel();
+        if (channel != null) {
+            channelGroup.add(channel);
         }
     }
 
@@ -82,25 +73,14 @@ public abstract class TrackerServer {
         channelGroup.close().awaitUninterruptibly();
     }
 
-
     public boolean isDuplex() {
         return duplex;
     }
-
     public int getPort() {
         return port;
     }
-
-    public void setPort(int port) {
-        this.port = port;
-    }
-
     public String getHost() {
         return host;
-    }
-
-    public void setHost(String host) {
-        this.host = host;
     }
 
     public AbstractBootstrap getBootstrap() {

@@ -11,7 +11,7 @@ import io.netty.channel.nio.NioEventLoopGroup;
 public final class EventLoopGroupFactory {
     private static EventLoopGroup bossGroup = new NioEventLoopGroup(ApplicationContext.getBossNThread());
     private static EventLoopGroup workerGroup = new NioEventLoopGroup(ApplicationContext.getWorkerNThread());
-    private static EpollEventLoopGroup epollGroup = new EpollEventLoopGroup(ApplicationContext.getWorkerNThread());
+    // private static EpollEventLoopGroup epollGroup = new EpollEventLoopGroup(ApplicationContext.getWorkerNThread());
 
     public static EventLoopGroup websocketGroup = new NioEventLoopGroup(2);
 
@@ -23,9 +23,9 @@ public final class EventLoopGroupFactory {
         return workerGroup;
     }
 
-    public static EpollEventLoopGroup getEpollGroup() {
-        return epollGroup;
-    }
+//    public static EpollEventLoopGroup getEpollGroup() {
+//        return epollGroup;
+//    }
 
     public static EventLoopGroup getWebsocketGroup() {
         return websocketGroup;

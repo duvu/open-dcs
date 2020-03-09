@@ -11,7 +11,6 @@ public class ProtocolObject {
     private boolean duplex;
     private int timeout;
     private double minSpeedKph;
-
     private boolean decodeLow;
 
     public String getClazz() {
