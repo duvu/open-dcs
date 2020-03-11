@@ -1,18 +1,15 @@
 package com.vd5.dcs2.handler;
 
-import com.google.gson.Gson;
 import com.vd5.dcs2.AbstractProtocolDecoder;
 import com.vd5.dcs2.ApplicationContext;
 import com.vd5.dcs2.Log;
 import com.vd5.dcs2.model.Position;
-import com.vd5.dcs2.model.WSMessage;
-import com.vd5.dcs2.websocket.WebSocketClient;
+import com.vd5.dcs2.websocket.WSMessage;
 import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.channel.socket.DatagramChannel;
 import io.netty.handler.timeout.IdleStateEvent;
-import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +39,6 @@ public class MainEventHandler extends ChannelInboundHandlerAdapter {
             Position position = (Position) msg;
             WSMessage wsMessage = new WSMessage("EVENTDATA");
             wsMessage.setData(position);
-            ApplicationContext.getDeviceManager().updateLastPosition(position);
             ApplicationContext.getWebClient().send(wsMessage);
         }
     }

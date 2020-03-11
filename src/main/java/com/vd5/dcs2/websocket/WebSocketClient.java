@@ -73,7 +73,8 @@ public class WebSocketClient {
     }
 
     public void send(final Object data) {
-        String dt = GsonFactory.getGson().toJson(data);
+        log.info("Sending data ...{}", GsonFactory.get().toJson(data));
+        String dt = GsonFactory.get().toJson(data);
         send(dt);
     }
 

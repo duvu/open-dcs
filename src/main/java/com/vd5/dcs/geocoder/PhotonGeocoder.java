@@ -15,4 +15,9 @@ public class PhotonGeocoder extends JsonGeocoder {
     public Address parseAddress(JsonObject json) {
         return null;
     }
+
+    @Override
+    public String getName() {
+        return "PhotonGeocoder";
+    }
 }

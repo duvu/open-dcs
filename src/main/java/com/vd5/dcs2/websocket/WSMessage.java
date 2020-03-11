@@ -1,4 +1,4 @@
-package com.vd5.dcs2.model;
+package com.vd5.dcs2.websocket;
 
 /**
  * @author beou on 10/24/18 01:28

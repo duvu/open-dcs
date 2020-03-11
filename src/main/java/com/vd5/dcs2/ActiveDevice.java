@@ -8,12 +8,12 @@ import java.net.SocketAddress;
  * @author beou on 9/30/18 00:23
  */
 public class ActiveDevice {
-    private final long deviceId;
+    private final String deviceId;
     private final Protocol protocol;
     private final Channel channel;
     private final SocketAddress remoteAddress;
 
-    public ActiveDevice(long deviceId, Protocol protocol, Channel channel, SocketAddress remoteAddress) {
+    public ActiveDevice(String deviceId, Protocol protocol, Channel channel, SocketAddress remoteAddress) {
         this.deviceId = deviceId;
         this.protocol = protocol;
         this.channel = channel;
@@ -24,7 +24,7 @@ public class ActiveDevice {
         return channel;
     }
 
-    public long getDeviceId() {
+    public String getDeviceId() {
         return deviceId;
     }
 

@@ -89,4 +89,8 @@ public class GoogleGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "GoogleGeocoder";
+    }
 }

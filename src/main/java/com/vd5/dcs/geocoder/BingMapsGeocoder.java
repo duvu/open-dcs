@@ -57,4 +57,8 @@ public class BingMapsGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "BingMapsGeocoder";
+    }
 }

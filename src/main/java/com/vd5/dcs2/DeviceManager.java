@@ -5,8 +5,10 @@ import com.google.common.cache.CacheBuilder;
 import com.vd5.dcs2.model.Device;
 import com.vd5.dcs2.model.Position;
 import com.vd5.dcs2.model.UnknownDevice;
-import com.vd5.dcs2.model.WSMessage;
+import com.vd5.dcs2.websocket.WSMessage;
 import com.vd5.feign.DeviceHub;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author beou on 10/1/18 09:12
@@ -16,6 +18,10 @@ public class DeviceManager {
     private final DeviceHub deviceHub;// = DeviceHub.connect();
 
     private Cache<String, Position> lastPosition = CacheBuilder.newBuilder().build();
+    private final Cache<String, String> notExistedRegistry = CacheBuilder
+            .newBuilder()
+            .expireAfterWrite(10, TimeUnit.MINUTES)
+            .build();
 
     public DeviceManager() {
         deviceHub = DeviceHub.connect();
@@ -25,25 +31,20 @@ public class DeviceManager {
         return deviceHub.deviceByUniqueId(uniqueId);
     }
 
-
-    public long addUnknownDevice(String uniqueId, String ipAddress, int port) {
-        WSMessage msg = new WSMessage(WSMessage.UNKNOWN_DEVICE);
-        msg.setData(new UnknownDevice(uniqueId, ipAddress, port));
-        ApplicationContext.getWebClient().send(msg);
-        return 0l;
-    }
-    
-    
-
-    public void updateLastPosition(Position position) {
-        lastPosition.put(position.getDeviceId(), position);
-    }
-
     public Position getLastPosition(String deviceId) {
         return lastPosition.getIfPresent(deviceId);
     }
 
     public void remove(String deviceId) {
 
+    }
+
+    public void notExisted(String deviceId) {
+        notExistedRegistry.put(deviceId, deviceId);
+    }
+
+    public boolean checkNotExisted(String deviceId) {
+        String deviceIdd = notExistedRegistry.getIfPresent(deviceId);
+        return deviceIdd != null && deviceIdd.length() > 0;
     }
 }

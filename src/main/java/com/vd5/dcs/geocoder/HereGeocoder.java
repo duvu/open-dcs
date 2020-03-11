@@ -134,4 +134,9 @@ public class HereGeocoder extends JsonGeocoder {
 
         return address;
     }
+
+    @Override
+    public String getName() {
+        return "HereGeocoder";
+    }
 }

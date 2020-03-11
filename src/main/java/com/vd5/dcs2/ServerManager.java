@@ -44,7 +44,7 @@ public class ServerManager {
 
     public void start(String name) throws InterruptedException {
         final Protocol protocol = protocolMap.get(name);
-        protocol.initTrackerServer(serverList);
+        protocol.initTrackerServer(serverList, true);
 
         serverMap.get(name + ".duplex").start();
     }
@@ -57,7 +57,7 @@ public class ServerManager {
         Class protocolClazz = Class.forName(protocolObject.getClazz());
         if (AbstractProtocol.class.isAssignableFrom(protocolClazz)) {
             AbstractProtocol protocol = (AbstractProtocol) protocolClazz.newInstance();
-            protocol.initTrackerServer(serverList);
+            protocol.initTrackerServer(serverList, protocolObject.isDuplex());
             protocolMap.put(protocol.getName(), protocol);
         }
     }

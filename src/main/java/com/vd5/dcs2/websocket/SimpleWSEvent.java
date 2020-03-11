@@ -18,7 +18,11 @@ public class SimpleWSEvent implements WSEvent {
     }
 
     public static SimpleWSEvent parse(String text) {
-        return GsonFactory.getGson().fromJson(text, SimpleWSEvent.class);
+        try {
+            return GsonFactory.get().fromJson(text, SimpleWSEvent.class);
+        } catch (Exception ex) {
+            return null;
+        }
     }
 
     public void setCommand(String command) {

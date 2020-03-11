@@ -87,4 +87,8 @@ public class NominatimGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "NominatimGeocoder";
+    }
 }

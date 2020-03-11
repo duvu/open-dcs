@@ -63,4 +63,8 @@ public class MapQuestGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "MapQuestGeocoder";
+    }
 }

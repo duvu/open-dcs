@@ -70,4 +70,8 @@ public class OpenCageGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "OpenCageGeocoder";
+    }
 }

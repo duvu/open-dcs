@@ -5,6 +5,7 @@ import io.netty.channel.*;
 import io.netty.handler.codec.http.FullHttpResponse;
 import io.netty.handler.codec.http.websocketx.*;
 import io.netty.util.CharsetUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -64,21 +65,29 @@ public class WebSocketClientHandler extends SimpleChannelInboundHandler<Object> 
             TextWebSocketFrame textFrame = (TextWebSocketFrame) frame;
             String cmdString = textFrame.text();
             log.info("Text: " + cmdString);
-            try {
+            if (cmdString != null && cmdString.length() > 0) {
                 SimpleWSEvent wsEvent = SimpleWSEvent.parse(cmdString);
-                if (wsEvent.getCommand().equalsIgnoreCase("DEVICE_DELETED")) {
-                    String deviceId = wsEvent.getData();
-                    ApplicationContext.getDeviceManager().remove(deviceId);
+                if (wsEvent != null) {
+                    processWSCommand(wsEvent);
                 }
-            } catch (Exception e) {
-                //--
-                log.error("Got exception!", e);
             }
         } else if (frame instanceof PongWebSocketFrame) {
             log.info("WebSocket Client received pong");
         } else if (frame instanceof CloseWebSocketFrame) {
             log.info("WebSocket Client received closing");
             ch.close();
+        }
+    }
+
+    private void processWSCommand(SimpleWSEvent wsEvent) {
+        String command = wsEvent.getCommand();
+        String data = wsEvent.getData();
+        if (command != null && command.equalsIgnoreCase("Device_Deleted")) {
+            ApplicationContext.getDeviceManager().remove(data);
+            return;
+        }
+        if (command != null && command.equalsIgnoreCase("DeviceNotExistedWSEvent")) {
+            ApplicationContext.getDeviceManager().notExisted(data);
         }
     }
 

@@ -156,6 +156,8 @@ public class Position extends Message {
     private double accuracy;
     private Network network;
 
+    private boolean useLastPosition;
+
     public Position() {
     }
 

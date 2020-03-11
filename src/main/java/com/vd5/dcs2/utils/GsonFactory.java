@@ -7,7 +7,7 @@ import com.google.gson.Gson;
  */
 public class GsonFactory {
     private static Gson gson;
-    public static Gson getGson() {
+    public static Gson get() {
         if (gson == null) {
             gson = new Gson();
         }

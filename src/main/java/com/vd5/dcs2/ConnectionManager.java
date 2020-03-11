@@ -10,9 +10,9 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author beou on 10/8/18 15:38
  */
 public class ConnectionManager {
-    private final Map<Long, ActiveDevice> activeDevices = new ConcurrentHashMap<>();
+    private final Map<String, ActiveDevice> activeDevices = new ConcurrentHashMap<>();
 
-    public void addActiveDevice(long deviceId, Protocol protocol, Channel channel, SocketAddress remoteAddress) {
+    public void addActiveDevice(String deviceId, Protocol protocol, Channel channel, SocketAddress remoteAddress) {
         activeDevices.put(deviceId, new ActiveDevice(deviceId, protocol, channel, remoteAddress));
     }
 

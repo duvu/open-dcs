@@ -19,28 +19,30 @@ public class WlinkProtocol extends AbstractProtocol {
     }
 
     @Override
-    public void initTrackerServer(List<TrackerServer> serverList) {
-        serverList.add(new TrackerServer(false, getName()) {
+    public void initTrackerServer(List<TrackerServer> serverList, boolean isDuplex) {
+        if (isDuplex) {
+            serverList.add(new TrackerServer(true, getName()) {
 
-            @Override
-            protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
-                pipelineBuilder.addLast("frameDecoder", new WlinkFrameDecoder());
-                pipelineBuilder.addLast("stringDecoder", new StringDecoder());
-                pipelineBuilder.addLast("stringEncoder", new StringEncoder());
-                pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
-                pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
-            }
-        });
+                @Override
+                protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
+                    pipelineBuilder.addLast("stringDecoder", new StringDecoder());
+                    pipelineBuilder.addLast("stringEncoder", new StringEncoder());
+                    pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
+                    pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
+                }
+            });
+        } else {
+            serverList.add(new TrackerServer(false, getName()) {
+                @Override
+                protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
+                    pipelineBuilder.addLast("frameDecoder", new WlinkFrameDecoder());
+                    pipelineBuilder.addLast("stringDecoder", new StringDecoder());
+                    pipelineBuilder.addLast("stringEncoder", new StringEncoder());
+                    pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
+                    pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
+                }
+            });
+        }
 
-        serverList.add(new TrackerServer(true, getName()) {
-
-            @Override
-            protected void addProtocolHandlers(PipelineBuilder pipelineBuilder) {
-                pipelineBuilder.addLast("stringDecoder", new StringDecoder());
-                pipelineBuilder.addLast("stringEncoder", new StringEncoder());
-                pipelineBuilder.addLast("objectEncoder", new WlinkProtocolEncoder());
-                pipelineBuilder.addLast("objectDecoder", new WlinkProtocolDecoder(WlinkProtocol.this));
-            }
-        });
     }
 }

@@ -49,4 +49,8 @@ public class GisgraphyGeocoder extends JsonGeocoder {
         return address;
     }
 
+    @Override
+    public String getName() {
+        return "GisgraphyGeocoder";
+    }
 }

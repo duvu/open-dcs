@@ -38,42 +38,34 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
         return protocol.getName();
     }
 
-    protected DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String uniqueIds) {
-        if (channel != null && channel.pipeline().get("httpDecoder") != null
-                || ApplicationContext.getConfig().getBoolean("decoder.ignoreSessionCache")) {
-            long deviceId = findDeviceId(remoteAddress, uniqueIds);
-            if (deviceId != 0) {
-                if (ApplicationContext.getConnectionManager() != null) {
-                    ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
-                }
-                return new DeviceSession(uniqueIds);
-            } else {
-                return null;
+    protected DeviceSession getDeviceSession(Channel channel, SocketAddress remoteAddress, String uniqueId) {
+        if (ApplicationContext.getDeviceManager().checkNotExisted(uniqueId)) {
+            return null;
+        }
+
+        if (channel != null && channel.pipeline().get("httpDecoder") != null || ApplicationContext.getConfig().getBoolean("decoder.ignoreSessionCache")) {
+            if (ApplicationContext.getConnectionManager() != null) {
+                ApplicationContext.getConnectionManager().addActiveDevice(uniqueId, protocol, channel, remoteAddress);
             }
+            return new DeviceSession(uniqueId);
         }
         if (channel instanceof DatagramChannel) {
-            long deviceId = findDeviceId(remoteAddress, uniqueIds);
             DeviceSession deviceSession = addressDeviceSessions.get(remoteAddress);
-            if (deviceSession != null && (deviceSession.getDeviceId().equalsIgnoreCase(uniqueIds))) {
-                return deviceSession;
-            } else if (deviceId != 0) {
-                deviceSession = new DeviceSession(uniqueIds);
-                addressDeviceSessions.put(remoteAddress, deviceSession);
-                if (ApplicationContext.getConnectionManager() != null) {
-                    ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
-                }
+            if (deviceSession != null && (deviceSession.getDeviceId().equalsIgnoreCase(uniqueId))) {
                 return deviceSession;
             } else {
-                return null;
+                deviceSession = new DeviceSession(uniqueId);
+                addressDeviceSessions.put(remoteAddress, deviceSession);
+                if (ApplicationContext.getConnectionManager() != null) {
+                    ApplicationContext.getConnectionManager().addActiveDevice(uniqueId, protocol, channel, remoteAddress);
+                }
+                return deviceSession;
             }
         } else {
             if (channelDeviceSession == null) {
-                long deviceId = findDeviceId(remoteAddress, uniqueIds);
-                if (deviceId != 0) {
-                    channelDeviceSession = new DeviceSession(uniqueIds);
-                    if (ApplicationContext.getConnectionManager() != null) {
-                        ApplicationContext.getConnectionManager().addActiveDevice(deviceId, protocol, channel, remoteAddress);
-                    }
+                channelDeviceSession = new DeviceSession(uniqueId);
+                if (ApplicationContext.getConnectionManager() != null) {
+                    ApplicationContext.getConnectionManager().addActiveDevice(uniqueId, protocol, channel, remoteAddress);
                 }
             }
             return channelDeviceSession;
@@ -128,7 +120,8 @@ public abstract class AbstractProtocolDecoder extends ChannelInboundHandlerAdapt
                 InetSocketAddress inet = (InetSocketAddress) remoteAddress;
                 String host = inet.getAddress().getHostAddress();
                 int port = ApplicationContext.getPort(protocol.getName());
-                return ApplicationContext.getDeviceManager().addUnknownDevice(uniqueIds[0], host, port);
+                //return ApplicationContext.getDeviceManager().addUnknownDevice(uniqueIds[0], host, port);
+                return 0l;
             }
             if (device != null && !"Disabled".equalsIgnoreCase(device.getStatus())) {
                 return deviceId;

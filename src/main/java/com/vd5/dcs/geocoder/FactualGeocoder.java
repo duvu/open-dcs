@@ -55,4 +55,8 @@ public class FactualGeocoder extends JsonGeocoder {
         return null;
     }
 
+    @Override
+    public String getName() {
+        return "FactualGeocoder";
+    }
 }

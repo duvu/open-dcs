@@ -10,7 +10,7 @@ import java.util.Map;
 
 public interface Protocol {
     String getName();
-    void initTrackerServer(List<TrackerServer> serverList);
+    void initTrackerServer(List<TrackerServer> serverList, boolean isDuplex);
 
 
     Collection<String> getSupportedDataCommands();
